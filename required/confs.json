@@ -1,0 +1,48 @@
+{
+    "AI":{
+        "Logs": "logs/",
+        "IP": "",
+        "Port": 5824
+	}, 
+	"ClassifierSettings":{
+        "Activation": "softmax",
+        "TFLearn": {
+            "Logs":"model/TFLearn",
+            "Path": "model/model.tflearn",
+            "Data": "model/model.json"
+        },
+        "FcUnits": 32,
+        "Epochs": 5000,
+        "BatchSize": 50,
+        "ShowMetric": true,
+        "Entities": "Mitie",
+        "EntitiesDat": "model/entities.dat",
+        "Mitie": {
+            "Threshold": 4.00,
+            "Location": "MITIE/mitielib",
+            "ModelLocation": "MITIE/MITIE-models/english/total_word_feature_extractor.dat"
+        },
+        "defaultResponses": [
+                "Sorry, I did not understand you",
+                "Sorry, could you rephrase"
+        ],
+        "repetition": [
+            {
+                "ignoreCount": 5,
+                "ignoreReset": 60
+            }
+        ]
+	},
+    "iotJumpWay": {
+        "Location": 0,
+        "Zone": 0,
+        "Device": 0,
+        "DeviceName" : "",
+        "App": 0,
+        "AppName" : "", 
+        "MQTT": {
+            "Username": "",
+            "Password": ""
+        }
+    }
+}  
