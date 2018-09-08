@@ -56,7 +56,7 @@ The following is an unedited conversation within the basic capabilities provided
 2018-09-08 20:08:24|GeniSys|Reponse: No problem!
 ```
 
-In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, you can find out more about this later in the tutorial.
+In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, you can find out more about this later in the tutorial. Although none of the things I said were in the training data, the AI was capable of identifying my intent.
 
 # Operating System
 
