@@ -63,7 +63,7 @@ class Model():
 
         return net
             
-    def trainDNN(self, x, y, words, classes):
+    def trainDNN(self, x, y, words, classes, intentMap):
 
         tf.reset_default_graph()
 
@@ -87,7 +87,8 @@ class Model():
                 'words': words, 
                 'classes': classes, 
                 'x': x, 
-                'y': y
+                'y': y,
+                'iMap' : [intentMap]
             })
 
     def buildDNN(self, x, y):

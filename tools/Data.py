@@ -166,16 +166,8 @@ class Data():
             classesHldr          = self.prepareClasses(theIntent, classesHldr)
             counter              = counter + 1
 
-        self.writeIntentMap(
-            intentMap, 
-            "data/intentMapper.json")
-
         words   = self.sortList(self.extract(wordsHldr, True, False,  True))
         classes = self.sortList(classesHldr)
-
-        self.writeIntentMap(
-            intentMap, 
-            "data/intentMapper.json")
             
         self.Logging.logMessage(
             self.LogFile,
@@ -201,7 +193,7 @@ class Data():
             "INFO",
             "Intent Map: "+str(intentMap))
 
-        return words, classes, dataCorpusHldr
+        return words, classes, dataCorpusHldr, intentMap
         
     def finaliseData(self, classes, dataCorpus, words):
 

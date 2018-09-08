@@ -63,6 +63,7 @@ class Trainer():
 
 		self.Model      = Model()
 		self.Data       = Data(self.Logging, self.LogFile)
+		self.intentMap  = {}
 		self.words      = []
 		self.classes    = [] 
 		self.dataCorpus = []
@@ -80,7 +81,7 @@ class Trainer():
 			"INFO",
 			"Loaded NLU Training Data")
 
-		self.words, self.classes, self.dataCorpus = self.Data.prepareData(self.trainingData)
+		self.words, self.classes, self.dataCorpus, self.intentMap = self.Data.prepareData(self.trainingData)
 		self.x, self.y = self.Data.finaliseData(self.classes, self.dataCorpus, self.words)
 		
 		self.Logging.logMessage(
@@ -136,14 +137,12 @@ class Trainer():
 				"End" : "In Progress",
 				"Total" : "In Progress",
 				"Message" : "NLU Model Training At " + humanStart})
-
-		print("")
-
 		self.Model.trainDNN(
 			self.x,
 			self.y,
 			self.words,
-			self.classes)
+			self.classes,
+			self.intentMap)
     		
 		trainingEnd, trainingTime, humanEnd = self.Helpers.timerEnd(trainingStart)
 		

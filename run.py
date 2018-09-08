@@ -44,6 +44,10 @@ import JumpWayMQTT.Device as jumpWayDevice
 from   tools.Helpers import Helpers
 from   tools.Logging import Logging
 from   Train         import Trainer
+from   tools.Data    import Data
+from   tools.Model   import Model
+from   tools.Mitie   import Entities
+from   tools.Context import Context
 
 class NLU():
     	
@@ -104,6 +108,258 @@ class NLU():
 
 			print(str(e))
 			sys.exit()
+		
+	def setup(self):
+    
+		self.Logging.logMessage(
+			self.LogFile,
+			"NLU",
+			"INFO",
+			"NLU Classifier Initiating")
+		
+		self.Data           = Data(self.Logging, self.LogFile)
+		self.Model          = Model()
+		self.Context        = Context()
+		
+		self.user           = {}
+		self.ner            = None
+		self.trainingData   = self.Data.loadTrainingData()
+		self.trainedData    = self.Data.loadTrainedData()
+
+		self.trainedWords   = self.trainedData["words"]
+		self.trainedClasses = self.trainedData["classes"]
+		self.x              = self.trainedData["x"]
+		self.y              = self.trainedData["y"]
+		self.intentMap      = self.trainedData["iMap"][0]
+
+		self.restoreEntitiesModel()
+		self.restoreModel()
+		
+		self.Logging.logMessage(
+			self.LogFile,
+			"NLU",
+			"INFO",
+			"NLU Ready")
+		
+	def restoreEntitiesModel(self):
+			
+		if os.path.exists(self._confs["ClassifierSettings"]["EntitiesDat"]):
+			self.ner = named_entity_extractor(self._confs["ClassifierSettings"]["EntitiesDat"])
+    
+			self.Logging.logMessage(
+				self.LogFile,
+				"NER",
+				"OK",
+				"Restored NLU NER Model")
+		
+	def restoreModel(self):
+		
+		self.tmodel = self.Model.buildDNN(
+			self.x,
+			self.y
+		) 
+		
+		self.Logging.logMessage(
+			self.LogFile,
+			"NLU",
+			"INFO",
+			"Restored NLU Model")
+		
+	def setupEntities(self):
+    		
+		if self._confs["ClassifierSettings"]["Entities"] == "Mitie":
+			self.entityExtractor = Entities()
+		
+		self.Logging.logMessage(
+			self.LogFile,
+			"NER",
+			"INFO",
+			"NLU Entity Extractor Initiated")
+		
+	def initiateSession(self, userID):
+    		
+		self.userID = userID
+		if not self.userID in self.user:
+			self.user[self.userID] = {}
+			self.user[self.userID]["history"] = {}
+		
+		self.Logging.logMessage(
+			self.LogFile,
+			"Session",
+			"INFO",
+			"NLU Session Ready For User #" + self.userID)
+		
+	def setThresholds(self, threshold):
+
+		self.threshold      = float(threshold)
+		self.entityThrshld  = self._confs["ClassifierSettings"]["Mitie"]["Threshold"]
+
+	def predict(self, parsedSentence):
+				
+		predictions = [[index, confidence] for index, confidence in enumerate(
+			self.tmodel.predict([
+				self.Data.makeInferenceBag(
+					parsedSentence,
+					self.trainedWords)])[0]) if confidence > self.threshold]
+		predictions.sort(key=lambda x: x[1], reverse=True)
+
+		classification = []
+		for prediction in predictions: 
+			classification.append((
+				self.trainedClasses[prediction[0]], 
+				prediction[1]))
+				
+		return classification
+			
+	def talk(self, sentence, debug=False):
+        
+		self.Logging.logMessage(
+			self.LogFile,
+			"GeniSys",
+			"STATUS",
+			"Processing")
+    		
+		parsed, fallback, entityHolder, parsedSentence = self.entityExtractor.parseEntities(
+			sentence,
+			self.ner,
+			self.trainingData
+		)
+
+		classification = self.predict(parsedSentence)
+
+		if len(classification) > 0:
+
+			clearEntities = False
+			theIntent     = self.trainingData["intents"][self.intentMap[classification[0][0]]]
+
+			if len(entityHolder) and not len(theIntent["entities"]):
+				clearEntities = True
+
+			if(self.Context.checkSessionContext(self.user[self.userID], theIntent)):
+
+				if self.Context.checkClearContext(theIntent, 0): 
+					self.user[self.userID]["context"] = ""
+
+				contextIn, contextOut, contextCurrent = self.Context.setContexts(
+																			theIntent, 
+																			self.user[self.userID])
+
+				if fallback and "fallbacks" in theIntent and len(theIntent["fallbacks"]):
+					response = self.entityExtractor.replaceResponseEntities(
+																		random.choice(theIntent["fallbacks"]),
+																		entityHolder)
+					action, actionResponses   = self.Helpers.setAction(theIntent)
+					
+				elif "entityType" in theIntent and theIntent["entityType"] == "Numbers":
+					response = random.choice(theIntent["responses"])
+					action, actionResponses   = self.Helpers.setAction(theIntent)
+					
+				elif not len(entityHolder) and len(theIntent["entities"]):
+					response = self.entityExtractor.replaceResponseEntities(
+																		random.choice(theIntent["fallbacks"]),
+																		entityHolder)
+					action, actionResponses   = self.Helpers.setAction(theIntent)
+
+				elif clearEntities:
+					entityHolder = []
+					response = random.choice(theIntent["responses"])
+					action, actionResponses   = self.Helpers.setAction(theIntent)
+
+				else:
+					response = self.entityExtractor.replaceResponseEntities(
+																		random.choice(theIntent["responses"]),
+																		entityHolder)
+					action, actionResponses   = self.Helpers.setAction(theIntent)
+
+				if action != None:
+
+					classParts     = action.split(".")
+					classFolder    = classParts[0]
+					className      = classParts[1]
+					
+					module         = __import__(classParts[0]+"."+classParts[1], globals(), locals(), [className])
+					actionClass    = getattr(module, className)()
+					response       = getattr(actionClass, classParts[2])(random.choice(actionResponses))
+
+				return {
+					"Response": "OK",
+					"ResponseData": [{
+						"Received": sentence,
+						"Intent": classification[0][0],
+						"Confidence": str(classification[0][1]),
+						"Response": response,
+						"ContextIn": contextIn,
+						"ContextOut": contextOut,
+						"Context": contextCurrent,
+						"Action": action,
+						"Entities": entityHolder
+					}]
+				}
+
+			else:
+
+				self.user[self.userID]["context"] = ""
+				contextIn, contextOut, contextCurrent = self.Context.setContexts(theIntent, self.user[self.userID])
+
+				if fallback and fallback in theIntent and len(theIntent["fallbacks"]):
+					response = self.entityExtractor.replaceResponseEntities(
+																		random.choice(theIntent["fallbacks"]),
+																		entityHolder)
+					action, actionResponses   = None, []
+
+				else:
+					response = self.entityExtractor.replaceResponseEntities(
+																		random.choice(theIntent["responses"]),
+																		entityHolder)
+					action, actionResponses   = self.Helpers.setAction(theIntent)
+
+				if action != None:
+
+					classParts     = action.split(".")
+					classFolder    = classParts[0]
+					className      = classParts[1]
+					
+					module         = __import__(classParts[0]+"."+classParts[1], globals(), locals(), [className])
+					actionClass    = getattr(module, className)()
+					response       = getattr(actionClass, classParts[2])(random.choice(actionResponses))
+
+				else:
+					response = self.entityExtractor.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
+
+				return {
+					"Response": "OK",
+					"ResponseData": [{
+						"Received": sentence,
+						"Intent": classification[0][0],
+						"Confidence": str(classification[0][1]),
+						"Response": response,
+						"ContextIn": contextIn,
+						"ContextOut": contextOut,
+						"ContextCurrent": contextCurrent,
+						"Action": action,
+						"Entities": entityHolder
+					}]
+				}
+
+		else:
+
+			contextCurrent = self.Context.getCurrentContext(self.user[self.userID])
+
+			return {
+				"Response": "FAILED",
+				"ResponseData": [{
+					"Received": sentence,
+					"Intent": "UNKNOWN",
+					"Confidence": "NA",
+					"Responses": [],
+					"Response": random.choice(self._confs["ClassifierSettings"]["defaultResponses"]),
+					"ContextIn": "NA",
+					"ContextOut": "NA",
+					"ContextCurrent": contextCurrent,
+					"Action":"NA",
+					"Entities": entityHolder
+				}]
+			}
 
 NLU = NLU()
 	
@@ -120,3 +376,55 @@ if __name__ == "__main__":
 			"NLU Trainer Ready")
 
 		Train.trainModel()
+		
+	elif sys.argv[1] == "INPUT":
+    		
+		NLU.setup()
+		NLU.setupEntities()
+    		
+		NLU.Logging.logMessage(
+			NLU.LogFile,
+			"Inference",
+			"INFO",
+			"Inference Started In INPUT Mode") 
+
+		NLU.initiateSession(sys.argv[2])
+		NLU.setThresholds(sys.argv[3])
+    		
+		while True:
+    			
+			intent = input(">")
+
+			NLU.Logging.logMessage(
+				NLU.LogFile,
+				"Human",
+				"Intent",
+				intent)
+
+			NLU.Logging.logMessage(
+				NLU.ChatLogFile,
+				"Human",
+				"Intent",
+				intent,
+				True)
+				
+			response = NLU.talk(intent)
+			
+			NLU.Logging.logMessage(
+				NLU.LogFile,
+				"GeniSys",
+				"Raw Reponse",
+				str(response["ResponseData"])) 
+			
+			NLU.Logging.logMessage(
+				NLU.LogFile,
+				"GeniSys",
+				"Reponse",
+				response["ResponseData"][0]["Response"])
+				
+			NLU.Logging.logMessage(
+				NLU.ChatLogFile,
+				"GeniSys",
+				"Reponse",
+				response["ResponseData"][0]["Response"],
+				True)

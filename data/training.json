@@ -20,7 +20,10 @@
                         "Hya, how can I help?",
                         "Hi, let me know what I can do for you?"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "Greeting",
                   "contextClear": "",
@@ -46,7 +49,10 @@
                         "Hi, I am good thank you, how are you?",
                         "Hi, good thank you, how are you?"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "CourtesyGreeting",
                   "contextClear": "",
@@ -70,7 +76,10 @@
                         "Good, how can I help you?",
                         "That is good, what can I do for you?"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "CourtesyGreeting",
                   "contextOut": "",
                   "contextClear": "True",
@@ -91,7 +100,10 @@
                         "You can call me Geni (Jenny), but my real name is GeniSys",
                         "You can call me Geni (Jenny), but my real name is GeniSys" 
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -109,7 +121,10 @@
                         "GeniSys",
                         "My real name is GeniSys" 
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -131,7 +146,14 @@
                         "One sec",
                         "One second"
                   ],
-                  "action": "TimeQuery",
+                  "action":  {
+                        "function": "actions.NLUtime.getTime",
+                        "responses": [
+                              "The time is %%TIME%%",
+                              "Right now it is %%TIME%%",
+                              "It is around %%TIME%%"
+                        ]
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -153,7 +175,10 @@
                         "I was trained well",
                         "Thanks, I was trained that way"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -175,7 +200,10 @@
                         "Fine, sorry to disturb you",
                         "OK, sorry to disturb you"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -194,7 +222,10 @@
                         "Have a nice day",
                         "Bye! Come back again soon."
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -213,7 +244,10 @@
                         "How rude",
                         "That is not very nice"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -234,7 +268,10 @@
                         "Not a problem! Have a nice day",
                         "Bye! Come back again soon."
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",
@@ -256,7 +293,10 @@
                         "Any time!",
                         "My pleasure"
                   ],
-                  "action": "",
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
                   "contextIn": "",
                   "contextOut": "",
                   "contextClear": "",

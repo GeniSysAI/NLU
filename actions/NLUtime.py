@@ -2,7 +2,7 @@
 #
 # The MIT License (MIT)
 # 
-# GeniSys NLU Helpers
+# GeniSys NLU Time Helpers
 # Copyright (C) 2018 Adam Milton-Barker (AdamMiltonBarker.com)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,48 +23,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Title:         GeniSys NLU Helpers
-# Description:   Helper functions for GeniSys NLU.
+# Title:         GeniSys NLU Time Helpers
+# Description:   Time helper functions for GeniSys NLU.
 # Configuration: required/confs.json
 # Last Modified: 2018-09-08
 #
 ############################################################################################
-
-import os, time, json, importlib
+ 
+import os, time, json
 
 from datetime import datetime
 
-class Helpers():
-
+class NLUtime():
+    
     def __init__(self):
-
         pass
-
-    def loadConfigs(self):
-
-        with open("required/confs.json") as configs:
-            configs = json.loads(configs.read())
-        return configs
         
-    def actionClass(self, classString):
+    def getTime(self, response):
         
-        return importlib.import_module(classString)
-
-    def setAction(self, intent):
-
-        actionResponses = []
-
-        action = intent["action"]["function"] if "function" in intent["action"] and intent["action"]["function"] !="" else None
-
-        if action != None:
-            actionResponses = intent["action"]["responses"]
-
-        return action, actionResponses
-
-    def timerStart(self):
-
-        return str(datetime.now()), time.time()
-
-    def timerEnd(self, start):
-
-        return time.time(), (time.time() - start), str(datetime.now())
+        return response.replace("%%TIME%%", time.strftime("%c"))
