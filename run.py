@@ -81,7 +81,7 @@ class NLU():
 				"zoneID": self._confs["iotJumpWay"]["Zone"],
 				"deviceId": self._confs["iotJumpWay"]["Device"],
 				"deviceName": self._confs["iotJumpWay"]["DeviceName"],
-                "username": self._confs["iotJumpWay"]["MQTT"]["Username"],
+				"username": self._confs["iotJumpWay"]["MQTT"]["Username"],
 				"password": self._confs["iotJumpWay"]["MQTT"]["Password"]
             })
 			
@@ -116,8 +116,8 @@ if __name__ == "__main__":
 		
 		Train.Logging.logMessage(
 			Train.LogFile,
-            "Trainer",
-            "OK",
-            "NLU Trainer Ready")
+			"Trainer",
+			"OK",
+			"NLU Trainer Ready")
 
 		Train.trainModel()
