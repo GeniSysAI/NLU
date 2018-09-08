@@ -82,8 +82,7 @@ class NLU():
 				"deviceId": self._confs["iotJumpWay"]["Device"],
 				"deviceName": self._confs["iotJumpWay"]["DeviceName"],
 				"username": self._confs["iotJumpWay"]["MQTT"]["Username"],
-				"password": self._confs["iotJumpWay"]["MQTT"]["Password"]
-            })
+				"password": self._confs["iotJumpWay"]["MQTT"]["Password"]})
 			
 			self.jumpwayClient.connectToDevice()
 			self.jumpwayClient.subscribeToDeviceChannel("Commands")
