@@ -55,18 +55,7 @@ The following is an unedited conversation within the basic capabilities provided
 2018-09-08 20:08:24|GeniSys|Reponse: No problem!
 ```
 
-In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, but in this case the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response.
-
-```
-"action":  {
-    "function": "actions.NLUtime.getTime",
-    "responses": [
-        "The time is %%TIME%%",
-        "Right now it is %%TIME%%",
-        "It is around %%TIME%%"
-    ]
-}
-```
+In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, you can find out more about this later in the tutorial.
 
 # Operating System
 
@@ -145,7 +134,49 @@ To begin training, make sure you are all set up, navigate to the root of the pro
 ```
  $ python3 run.py TRAIN
 ```
+
 [![Training Your NLU Engine](images/train-results.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
+
+# Communicating with your AI
+
+Now you have trained your AI, it is time to test her out! In this tutorial I will base my explanation on the conversation block at the beginning of this tutorial. 
+
+As your AI is now trained, all you need to do (assuming you are in the project root), is execute the following code:
+
+```
+ $ python3 run.py INPUT  1 0.5
+```
+What this does is starts up a session using the user ID of 1 and a threshold of 0.5, sometimes if your model is misclassifying it can help to play with this threshold. 
+
+[![Communicating with your AI](imagestalk.jpg)](https://github.com/GeniSysAI/NLU/blob/master/run.py)
+
+In the case of the example, the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response.
+
+```
+"action":  {
+    "function": "actions.NLUtime.getTime",
+    "responses": [
+        "The time is %%TIME%%",
+        "Right now it is %%TIME%%",
+        "It is around %%TIME%%"
+    ]
+}
+```
+
+Regarding the classifications in general, if you have looked through the example data, you may notice that none of the things that I said in the above script had been directly trained to the AI. For example, with the question **What would I call you if I were to speak to you?**, the actual training data provided to the AI related to this question is actually:
+
+```
+"text": [
+    "What is your name",
+    "Whats your name",
+    "What do they call you",
+    "What can I call you",
+    "Who are you",
+    "Tell me your name"
+]
+```
+
+You can see that the example above was not in the training data, but the AI was still able to classify and respond correctly. 
 
 # Contributing
 Please read [CONTRIBUTING.md](https://github.com/GeniSysAI/NLU/blob/master/CONTRIBUTING.md "CONTRIBUTING.md") for details on our code of conduct, and the process for submitting pull requests to us.
