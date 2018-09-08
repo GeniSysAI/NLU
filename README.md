@@ -92,7 +92,7 @@ Now it is time to think about training data. In the [data/training.json](https:/
 
 # Training Your NLU Engine
 
-[![iotJumpWay](images/train-confirmation.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
+[![Training Your NLU Engine](images/train-confirmation.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
 
 Now everything is set up, it is time to train. The main functionality for the training process can be found in [Train.py](https://github.com/GeniSysAI/NLU/blob/master/Train.py "Train.py"), [tools/Data.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Data.py "tools/Data.py"), [tools/Model.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Model.py "tools/Model.py") and  [tools/Mitie.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Mitie.py "tools/Mitie.py"), the configuration for training can be found and modified in [required/confs.json](https://github.com/GeniSysAI/NLU/blob/master/required/confs.json "required/confs.json").
 
@@ -101,6 +101,7 @@ To begin training, make sure you are all set up, navigate to the root of the pro
 ```
  $ python3 run.py TRAIN
 ```
+[![Training Your NLU Engine](images/train-results.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
 
 # Contributing
 Please read [CONTRIBUTING.md](https://github.com/GeniSysAI/NLU/blob/master/CONTRIBUTING.md "CONTRIBUTING.md") for details on our code of conduct, and the process for submitting pull requests to us.
