@@ -24,6 +24,37 @@ This tutorial will help you setup the NLU Engine required for your GeniSys netwo
 - Testing your classifier locally in real time
 - Testing your classifier API via a client
 
+# Example Output
+
+The following is an unedited conversation within the basic capabilities provided by the example training data (The full response print out has been removed to make it easy to follow the conversation):
+
+```
+>Hi how are you today?
+2018-09-08 20:07:18|Human|Intent: Hi how are you today?
+2018-09-08 20:07:18|GeniSys|STATUS: Processing
+2018-09-08 20:07:18|GeniSys|Reponse: Hi, I am good thank you, how are you?
+>I am very good thank you for asking
+2018-09-08 20:07:29|Human|Intent: I am very good thank you for asking
+2018-09-08 20:07:29|GeniSys|STATUS: Processing
+2018-09-08 20:07:29|GeniSys|Reponse: Good, how can I help you?
+>What would I call you if I were to speak to you?
+2018-09-08 20:07:47|Human|Intent: What would I call you if I were to speak to you?
+2018-09-08 20:07:47|GeniSys|STATUS: Processing
+2018-09-08 20:07:47|GeniSys|Reponse: You can call me Geni (Jenny), but my real name is GeniSys
+>thank you
+2018-09-08 20:07:55|Human|Intent: thank you
+2018-09-08 20:07:55|GeniSys|STATUS: Processing
+2018-09-08 20:07:55|GeniSys|Reponse: My pleasure
+>Would you happen to know what time it is ?
+2018-09-08 20:08:13|Human|Intent: Would you happen to know what time it is ?
+2018-09-08 20:08:13|GeniSys|STATUS: Processing
+2018-09-08 20:08:13|GeniSys|Reponse: Right now it is Sat Sep  8 20:08:13 2018
+>cool thank you
+2018-09-08 20:08:24|Human|Intent: cool thank you
+2018-09-08 20:08:24|GeniSys|STATUS: Processing
+2018-09-08 20:08:24|GeniSys|Reponse: No problem!
+```
+
 # Operating System
 
 - Tested on [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04/ "Ubuntu 18.04.1 LTS (Bionic Beaver)"), previous versions have been tested in Windows successfully but you need to make sure you install MITIE correctly on your Windows machine.
