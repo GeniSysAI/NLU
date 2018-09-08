@@ -55,6 +55,19 @@ The following is an unedited conversation within the basic capabilities provided
 2018-09-08 20:08:24|GeniSys|Reponse: No problem!
 ```
 
+In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, but in this case the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response.
+
+```
+"action":  {
+    "function": "actions.NLUtime.getTime",
+    "responses": [
+        "The time is %%TIME%%",
+        "Right now it is %%TIME%%",
+        "It is around %%TIME%%"
+    ]
+}
+```
+
 # Operating System
 
 - Tested on [Ubuntu 18.04.1 LTS (Bionic Beaver)](http://releases.ubuntu.com/18.04/ "Ubuntu 18.04.1 LTS (Bionic Beaver)"), previous versions have been tested in Windows successfully but you need to make sure you install MITIE correctly on your Windows machine.
