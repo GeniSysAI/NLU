@@ -183,7 +183,33 @@ You can see that the example above was not in the training data, but the AI was 
 
 Due to a rather good idea I had, ;) basic functionality exists for parsing AIML documents into a format suitable for training the NLU and adding it to the training data. Below is an example after training with a few jokes found in an AIML file provided by [Pandorabots]( https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml "Pandorabots")
 
-[![Communicating with your AI](images/conversation.jpg)](https://www.facebook.com/photo.php?fbid=2089876777712575&set=a.183602005006738&type=3&theater)
+```
+2018-09-08 22:03:38|Inference|INFO: Inference Started In INPUT Mode
+2018-09-08 22:03:38|Session|INFO: NLU Session Ready For User #1
+
+>I bet you are not funny, can you tell me a joke?
+
+2018-09-08 22:03:51|Human|Intent: I bet you are not funny, can you tell me a joke?
+2018-09-08 22:03:51|GeniSys|STATUS: Processing
+
+2018-09-08 22:03:51|GeniSys|Reponse: A man returns from an exotic holiday and is feeling very ill. He goes to see his doctor, and is immediately rushed to the hospital to undergo some tests. The man wakes up after the tests in a private room at the hospital, and the phone by his bed rings. 'This is your doctor. We have the results back from your tests and we have found you have an extremely nasty disease called M.A.D.S. It's a combination of Measles, AIDS, Diphtheria, and Shingles!'  'Oh my gosh', cried the man, 'What are you going to do, doctor?'  'Well we're going to put you on a diet of pizzas, pancakes, and pita bread.' replied the doctor.  'Will that cure me?' asked the man.  The doctor replied, 'Well no, but, it's the only food we can slide under the door.'
+
+>Not bad, tell me another joke
+
+2018-09-08 22:04:12|Human|Intent: Not bad, tell me another joke
+2018-09-08 22:04:12|GeniSys|STATUS: Processing
+
+2018-09-08 22:04:12|GeniSys|Reponse: A doctor thoroughly examined his patient and said, 'Look I really can't find any reason for this mysterious affliction. It's probably due to drinking.' The patient sighed and snapped, 'In that case, I'll come back when you're damn well sober!'
+
+>Alcohol jokes are always funny! You can tell me another joke
+
+2018-09-08 22:04:40|Human|Intent: Alcohol jokes are always funny! You can tell me another joke
+2018-09-08 22:04:40|GeniSys|STATUS: Processing
+
+2018-09-08 22:04:40|GeniSys|Reponse: Man: Doctor, I've just swallowed a pillow. Doctor: How do you feel? Man: A little down in the mouth.
+
+>Haha
+```
 
 # Stay Tuned!!
 
