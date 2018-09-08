@@ -179,6 +179,12 @@ Regarding the classifications in general, if you have looked through the example
 
 You can see that the example above was not in the training data, but the AI was still able to classify and respond correctly. 
 
+# Joking With Your AI
+
+Due to a rather good idea I had, ;) basic functionality exists for parsing AIML documents into a format suitable for training the NLU and adding it to the training data. Below is an example after training with a few jokes found in an AIML file provided by [Pandorabots]( https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml "Pandorabots")
+
+[![Communicating with your AI](images/conversation.jpg)](https://www.facebook.com/photo.php?fbid=2089876777712575&set=a.183602005006738&type=3&theater)
+
 # Stay Tuned!!
 
 There are more features from my original version that are still yet to be implemented plus some other cool features, pluse the combined system of all three GeniSys AI repos.
