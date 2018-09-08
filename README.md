@@ -148,7 +148,7 @@ As your AI is now trained, all you need to do (assuming you are in the project r
 ```
 What this does is starts up a session using the user ID of 1 and a threshold of 0.5, sometimes if your model is misclassifying it can help to play with this threshold. 
 
-[![Communicating with your AI](imagestalk.jpg)](https://github.com/GeniSysAI/NLU/blob/master/run.py)
+[![Communicating with your AI](images/talk.jpg)](https://github.com/GeniSysAI/NLU/blob/master/run.py)
 
 In the case of the example, the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response.
 
