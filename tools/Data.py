@@ -49,7 +49,7 @@ class Data():
         ]
         
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Data Helper Ready")
@@ -60,7 +60,7 @@ class Data():
             trainingData = json.load(jsonData)
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Training Data Ready")
@@ -73,7 +73,7 @@ class Data():
             modelData = json.load(jsonData)
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Model Data Ready")
@@ -86,7 +86,7 @@ class Data():
             intentsMap = json.load(jsonData)
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Intent Map Ready")
@@ -101,7 +101,7 @@ class Data():
                 file)
                 
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Intent Map Saved")
@@ -156,7 +156,7 @@ class Data():
                         wordsHldr.extend(tokens)
                         dataCorpusHldr.append((tokens, theIntent))
                         i = i + 1
-                        
+
                 else:
                     tokens = text.lower().split()
                     wordsHldr.extend(tokens)
@@ -178,25 +178,25 @@ class Data():
             "data/intentMapper.json")
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Corpus: "+str(dataCorpusHldr))
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Classes: "+str(classes))
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Words: "+str(words))
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Intent Map: "+str(intentMap))
@@ -217,7 +217,7 @@ class Data():
         trainData = np.array(trainData)
             
         self.Logging.logMessage(
-			self.LogFile,
+            self.LogFile,
             "Data",
             "INFO",
             "Finalised Training Data Ready"

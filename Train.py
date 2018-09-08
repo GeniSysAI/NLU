@@ -58,9 +58,9 @@ class Trainer():
 		
 		self.Logging.logMessage(
 			self.LogFile,
-            "LogFile",
-            "INFO",
-            "NLU Trainer LogFile Set")
+			"LogFile",
+			"INFO",
+			"NLU Trainer LogFile Set")
 
 		self.Model      = Model()
 		self.Data       = Data(self.Logging, self.LogFile)
@@ -77,18 +77,18 @@ class Trainer():
 		
 		self.Logging.logMessage(
 			self.LogFile,
-            "Trainer",
-            "INFO",
-            "Loaded NLU Training Data")
+			"Trainer",
+			"INFO",
+			"Loaded NLU Training Data")
 
 		self.words, self.classes, self.dataCorpus = self.Data.prepareData(self.trainingData)
 		self.x, self.y = self.Data.finaliseData(self.classes, self.dataCorpus, self.words)
 		
 		self.Logging.logMessage(
 			self.LogFile,
-            "TRAIN",
-            "INFO",
-            "NLU Trainer Data Ready")
+			"TRAIN",
+			"INFO",
+			"NLU Trainer Data Ready")
 		
 	def setupEntities(self):
     		
@@ -116,6 +116,7 @@ class Trainer():
 				"TRAIN",
 				"ACTION",
 				"Ready To Begin Training ? (Yes/No)")
+
 			userInput = input()
 
 			if userInput == 'Yes': break
@@ -126,20 +127,19 @@ class Trainer():
 		
 		self.Logging.logMessage(
 			self.LogFile,
-            "TRAIN",
-            "INFO",
-            "NLU Model Training At " + humanStart)
+			"TRAIN",
+			"INFO",
+			"NLU Model Training At " + humanStart)
 
 		self.jumpwayCl.publishToDeviceChannel(
-				"Training",
-				{
-					"NeuralNet" : "NLU",
-					"Start" : trainingStart,
-					"End" : "In Progress",
-					"Total" : "In Progress",
-					"Message" : "NLU Model Training At " + humanStart
-				}
-			)
+			"Training",
+			{
+				"NeuralNet" : "NLU",
+				"Start" : trainingStart,
+				"End" : "In Progress",
+				"Total" : "In Progress",
+				"Message" : "NLU Model Training At " + humanStart
+			})
 
 		print("")
 
@@ -155,18 +155,17 @@ class Trainer():
 		
 		self.Logging.logMessage(
 			self.LogFile,
-            "TRAIN",
-            "OK",
-            "NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"
+			"TRAIN",
+			"OK",
+			"NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"
         )
 
 		self.jumpwayCl.publishToDeviceChannel(
-				"Training",
-				{
-					"NeuralNet" : "NLU",
-					"Start" : trainingStart,
-					"End" : trainingEnd,
-					"Total" : trainingTime,
-					"Message" : "NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"
-				}
-			)
+			"Training",
+			{
+				"NeuralNet" : "NLU",
+				"Start" : trainingStart,
+				"End" : trainingEnd,
+				"Total" : trainingTime,
+				"Message" : "NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"
+			})
