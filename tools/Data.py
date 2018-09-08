@@ -30,7 +30,7 @@
 #
 ############################################################################################
 
-import json, random, pickle, nltk, numpy as np 
+import json, random, nltk, numpy as np 
 
 from nltk.stem.lancaster import LancasterStemmer
 
@@ -206,12 +206,12 @@ class Data():
     def finaliseData(self, classes, dataCorpus, words):
 
         trainData = []
-        out       = np.zeros(len(classes))
+        out = np.zeros(len(classes))
 
         for document in dataCorpus:
             output = list(out)
             output[classes.index(document[1])] = 1
-            trainData.append([self.makeTrainingBag(self.extract(document[0], True, False, False), words), output])
+            trainData.append([self.makeTrainingBag(self.extract(document[0], True, False, False), words, []), output])
 
         random.shuffle(trainData)
         trainData = np.array(trainData)
@@ -220,6 +220,6 @@ class Data():
             self.LogFile,
             "Data",
             "INFO",
-            "Finalised Training Data Ready"
+            "Finalised Training Data Ready")
 
         return list(trainData[:,0]), list(trainData[:,1])

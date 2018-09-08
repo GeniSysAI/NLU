@@ -104,8 +104,7 @@ class Trainer():
 				
 			self.entityExtractor.trainEntities(
 				self._confs["ClassifierSettings"]["Mitie"]["ModelLocation"],
-				self.trainingData
-			) 
+				self.trainingData) 
 		
 	def trainModel(self):
 		
@@ -138,8 +137,7 @@ class Trainer():
 				"Start" : trainingStart,
 				"End" : "In Progress",
 				"Total" : "In Progress",
-				"Message" : "NLU Model Training At " + humanStart
-			})
+				"Message" : "NLU Model Training At " + humanStart})
 
 		print("")
 
@@ -157,8 +155,7 @@ class Trainer():
 			self.LogFile,
 			"TRAIN",
 			"OK",
-			"NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"
-        )
+			"NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds")
 
 		self.jumpwayCl.publishToDeviceChannel(
 			"Training",
@@ -167,5 +164,4 @@ class Trainer():
 				"Start" : trainingStart,
 				"End" : trainingEnd,
 				"Total" : trainingTime,
-				"Message" : "NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"
-			})
+				"Message" : "NLU Model Trained At "+ humanEnd + " In " + str(trainingEnd) + " Seconds"})

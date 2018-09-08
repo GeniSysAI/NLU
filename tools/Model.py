@@ -53,29 +53,31 @@ class Model():
             
     def createDNNLayers(self, x, y):
         
-        tf.reset_default_graph()
         net = tflearn.input_data(shape=[None, len(x[0])])
 
         for i in range(self._confs["ClassifierSettings"]['FcLayers']):
             net = tflearn.fully_connected(net, self._confs["ClassifierSettings"]['FcUnits'])
 
-        net = tflearn.fully_connected(net, en(y[0]), activation=str(self._confs["ClassifierSettings"]['Activation']))
+        net = tflearn.fully_connected(net, len(y[0]), activation=str(self._confs["ClassifierSettings"]['Activation']))
+        net = tflearn.regression(net)
 
-        return tflearn.regression(net)
+        return net
             
     def trainDNN(self, x, y, words, classes):
 
+        tf.reset_default_graph()
+
         tmodel = tflearn.DNN(
                         self.createDNNLayers(x, y), 
-                        tensorboard_dir=self._confs["ClassifierSettings"]['TFLearn']['Logs'], 
-                        tensorboard_verbose=self._confs["ClassifierSettings"]['TFLearn']['LogsLevel'])
+                        tensorboard_dir = self._confs["ClassifierSettings"]['TFLearn']['Logs'], 
+                        tensorboard_verbose = self._confs["ClassifierSettings"]['TFLearn']['LogsLevel'])
 
         tmodel.fit(
                 x, 
                 y, 
-                n_epoch=self._confs["ClassifierSettings"]['Epochs'], 
-                batch_size=self._confs["ClassifierSettings"]['BatchSize'], 
-                show_metric=self._confs["ClassifierSettings"]['ShowMetric'])
+                n_epoch = self._confs["ClassifierSettings"]['Epochs'], 
+                batch_size = self._confs["ClassifierSettings"]['BatchSize'], 
+                show_metric = self._confs["ClassifierSettings"]['ShowMetric'])
 
         tmodel.save(self._confs["ClassifierSettings"]['TFLearn']['Path'])
             
@@ -92,5 +94,5 @@ class Model():
 
         tf.reset_default_graph()
         tmodel = tflearn.DNN(self.createDNNLayers(x, y))
-
-        return tmodel.load(self._confs["ClassifierSettings"]['TFLearn']['Path'])
+        tmodel.load(self._confs["ClassifierSettings"]['TFLearn']['Path'])
+        return tmodel

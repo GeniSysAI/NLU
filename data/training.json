@@ -1,0 +1,266 @@
+{
+      "intents": [
+            {
+                  "intent": "Greeting",
+                  "text": [
+                        "Hi",
+                        "Hi there",
+                        "Hola",
+                        "Hello",
+                        "Hello there",
+                        "Hya",
+                        "Hya there"
+                  ],
+                  "responses": [
+                        "Hello, how are you?",
+                        "Hi, how are you?",
+                        "Hola, how can I help?",
+                        "Hi, what can I do for you?",
+                        "Hi, do you need me to do something for you?",
+                        "Hya, how can I help?",
+                        "Hi, let me know what I can do for you?"
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "Greeting",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "CourtesyGreeting",
+                  "text": [
+                        "How are you",
+                        "Hi how are you",
+                        "Hello how are you",
+                        "Hola how are you",
+                        "How are you doing",
+                        "Hi how are you doing",
+                        "Hello how are you doing"
+                  ],
+                  "responses": [
+                        "Hello, I am great, how are you?",
+                        "Hello, how are you? I am great thanks!",
+                        "Hello, I am good thank you, how are you?",
+                        "Hi, I am great, how are you?",
+                        "Hi, how are you? I am great thanks!",
+                        "Hi, I am good thank you, how are you?",
+                        "Hi, good thank you, how are you?"
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "CourtesyGreeting",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "CourtesyGreetingResponse",
+                  "text": [
+                        "Good",
+                        "Good thank you",
+                        "I am good thank you",
+                        "Great",
+                        "Great thank you",
+                        "I am great thank you",
+                        "I am OK thanks"
+                  ],
+                  "responses": [
+                        "Great! How can I help?",
+                        "That is good, how can I help you?",
+                        "Very good, what can I do for you?",
+                        "Good, how can I help you?",
+                        "That is good, what can I do for you?"
+                  ],
+                  "action": "",
+                  "contextIn": "CourtesyGreeting",
+                  "contextOut": "",
+                  "contextClear": "True",
+                  "entities": []
+            },
+            {
+                  "intent": "NameQuery",
+                  "text": [
+                        "What is your name",
+                        "Whats your name",
+                        "What do they call you",
+                        "What can I call you",
+                        "Who are you",
+                        "Tell me your name"
+                  ],
+                  "responses": [
+                        "My name is GeniSys, you can call me Geni (Jenny)",
+                        "You can call me Geni (Jenny), but my real name is GeniSys",
+                        "You can call me Geni (Jenny), but my real name is GeniSys" 
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "RealNameQuery", 
+                  "text": [
+                        "What is your real name",
+                        "Whats your real name",
+                        "Tell me your real name"
+                  ],
+                  "responses": [
+                        "My name is GeniSys",
+                        "GeniSys",
+                        "My real name is GeniSys" 
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            { 
+                  "intent": "TimeQuery",
+                  "text": [
+                        "What is the time",
+                        "What's the time",
+                        "Do you know what time it is",
+                        "Do you know the time",
+                        "Can you tell me the time",
+                        "Tell me what time it is",
+                        "Genious"
+                  ],
+                  "responses": [
+                        "One moment",
+                        "One sec",
+                        "One second"
+                  ],
+                  "action": "TimeQuery",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            { 
+                  "intent": "Clever",
+                  "text": [
+                        "You are very clever",
+                        "You are a very clever girl",
+                        "You are very intelligent",
+                        "You are a very intelligent girl",
+                        "You are a genious",
+                        "Clever girl",
+                        "Genious"
+                  ],
+                  "responses": [
+                        "Thank you, I was trained that way",
+                        "I was trained well",
+                        "Thanks, I was trained that way"
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "Shutup",
+                  "text": [
+                        "Be quiet",
+                        "Shut up",
+                        "Stop talking",
+                        "Enough talking",
+                        "Please be quiet",
+                        "Quiet",
+                        "Shhh"
+                  ],
+                  "responses": [
+                        "I am sorry to disturb you",
+                        "Fine, sorry to disturb you",
+                        "OK, sorry to disturb you"
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "GoodBye",
+                  "text": [
+                        "Bye",
+                        "Adios",
+                        "See you later",
+                        "Goodbye"
+                  ],
+                  "responses": [
+                        "See you later",
+                        "Have a nice day",
+                        "Bye! Come back again soon."
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "Swearing",
+                  "text": [
+                        "fuck off",
+                        "fuck",
+                        "twat",
+                        "shit"
+                  ],
+                  "responses": [
+                        "Please do not swear",
+                        "How rude",
+                        "That is not very nice"
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "CourtesyGoodBye",
+                  "text": [
+                        "Thanks, bye",
+                        "Thanks for the help, goodbye",
+                        "Thank you, bye",
+                        "Thank you, goodbye",
+                        "Thanks goodbye",
+                        "Thanks good bye"
+                  ],
+                  "responses": [
+                        "No problem, goodbye",
+                        "Not a problem! Have a nice day",
+                        "Bye! Come back again soon."
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "Thanks",
+                  "text": [
+                        "OK thank you",
+                        "OK thanks",
+                        "OK",
+                        "Thanks",
+                        "Thank you",
+                        "That's helpful"
+                  ],
+                  "responses": [
+                        "No problem!",
+                        "Happy to help!",
+                        "Any time!",
+                        "My pleasure"
+                  ],
+                  "action": "",
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            }
+      ]
+}
