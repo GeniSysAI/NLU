@@ -150,7 +150,7 @@ What this does is starts up a session using the user ID of 1 and a threshold of 
 
 [![Communicating with your AI](images/talk.jpg)](https://github.com/GeniSysAI/NLU/blob/master/run.py)
 
-In the case of the example, the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response.
+In the case of the example, the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response. You can write your own functionality or link the response to other modules as you like, the limit is your imagination ;) 
 
 ```
 "action":  {
