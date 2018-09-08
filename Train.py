@@ -35,7 +35,6 @@ import sys, os, json, re, time
 
 import JumpWayMQTT.Device as jumpWayDevice
 
-from datetime       import datetime
 from tools.Helpers  import Helpers
 from tools.Logging  import Logging
 from tools.Data     import Data
@@ -116,13 +115,12 @@ class Trainer():
 				"ACTION",
 				"Ready To Begin Training ? (Yes/No)")
 
-			userInput = input()
+			userInput = input(">")
 
 			if userInput == 'Yes': break
 			if userInput == 'No':  exit()
     		
-		humanStart    = str(datetime.now())
-		trainingStart = time.time()
+		humanStart, trainingStart = self.Helpers.timerStart()
 		
 		self.Logging.logMessage(
 			self.LogFile,
@@ -147,9 +145,7 @@ class Trainer():
 			self.words,
 			self.classes)
     		
-		trainingEnd  = time.time()
-		trainingTime = trainingEnd - trainingStart
-		humanEnd     = str(datetime.now())
+		trainingEnd, trainingTime, humanEnd = self.Helpers.timerEnd(trainingStart)
 		
 		self.Logging.logMessage(
 			self.LogFile,

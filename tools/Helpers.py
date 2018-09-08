@@ -30,7 +30,9 @@
 #
 ############################################################################################
 
-import os, json
+import os, time, json
+
+from datetime import datetime
 
 class Helpers():
 
@@ -47,3 +49,11 @@ class Helpers():
     def setAction(self, intent):
 
         return intent["action"] if "action" in intent else "NA"
+
+    def timerStart(self):
+
+        return str(datetime.now()), time.time()
+
+    def timerEnd(self, start):
+
+        return time.time(), (time.time() - start), str(datetime.now())
