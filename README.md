@@ -178,6 +178,10 @@ Regarding the classifications in general, if you have looked through the example
 
 You can see that the example above was not in the training data, but the AI was still able to classify and respond correctly. 
 
+# Stay Tuned!!
+
+There are more features from my original version that are still yet to be implemented plus some other cool features, pluse the combined system of all three GeniSys AI repos.
+
 # Contributing
 Please read [CONTRIBUTING.md](https://github.com/GeniSysAI/NLU/blob/master/CONTRIBUTING.md "CONTRIBUTING.md") for details on our code of conduct, and the process for submitting pull requests to us.
 
