@@ -26,7 +26,7 @@
 # Title:         GeniSys NLU Engine
 # Description:   Serves an NLU endpoint for intent / entity classification
 # Configuration: required/confs.json
-# Last Modified: 2018-09-02
+# Last Modified: 2018-09-08
 #
 # Example Usage:
 #
@@ -41,6 +41,7 @@ import sys, os, random, json, string
 
 import JumpWayMQTT.Device as jumpWayDevice
 
+from   flask         import Flask, Response, request
 from   tools.Helpers import Helpers
 from   tools.Logging import Logging
 from   Train         import Trainer
@@ -48,16 +49,22 @@ from   tools.Data    import Data
 from   tools.Model   import Model
 from   tools.Mitie   import Entities
 from   tools.Context import Context
+from   tools.Mitie   import Entities
+
+parent = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(parent + '/MITIE/mitielib')
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 class NLU():
     	
 	def __init__(self):
     		
-		self.Helpers        = Helpers()
-		self.Logging        = Logging()
-		self._confs         = self.Helpers.loadConfigs()
-		self.LogFile        = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"NLU/")
-		self.ChatLogFile    = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"Chat/")
+		self.app         = Flask(__name__)
+		self.Helpers     = Helpers()
+		self.Logging     = Logging()
+		self._confs      = self.Helpers.loadConfigs()
+		self.LogFile     = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"NLU/")
+		self.ChatLogFile = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"Chat/")
 		
 		self.Logging.logMessage(
 			self.LogFile,
@@ -187,7 +194,7 @@ class NLU():
 			self.LogFile,
 			"Session",
 			"INFO",
-			"NLU Session Ready For User #" + self.userID)
+			"NLU Session Ready For User #" + str(self.userID))
 		
 	def setThresholds(self, threshold):
 
@@ -211,7 +218,7 @@ class NLU():
 				
 		return classification
 			
-	def talk(self, sentence, debug=False):
+	def communicate(self, sentence, debug=False):
         
 		self.Logging.logMessage(
 			self.LogFile,
@@ -362,13 +369,25 @@ class NLU():
 			}
 
 NLU = NLU()
+
+@NLU.app.route("/infer/<int:userId>", methods = ["POST"])
+def infer(userId):
+
+	NLU.initiateSession(userId)
+
+	if request.headers["Content-Type"] == "application/json":
+		query=request.json
+		response = NLU.communicate(query["query"])
+		print(response) 
+
+		return Response(response=json.dumps(response, indent=4, sort_keys=True), status=200, mimetype="application/json")
 	
 if __name__ == "__main__":
     	
 	if sys.argv[1] == "TRAIN":
 
 		Train = Trainer(NLU.jumpwayClient)
-		
+
 		Train.Logging.logMessage(
 			Train.LogFile,
 			"Trainer",
@@ -377,11 +396,24 @@ if __name__ == "__main__":
 
 		Train.trainModel()
 		
-	elif sys.argv[1] == "INPUT":
-    		
+	elif sys.argv[1] == "SERVER":
+
 		NLU.setup()
 		NLU.setupEntities()
-    		
+		NLU.setThresholds(sys.argv[2])
+
+		NLU.Logging.logMessage(
+			NLU.LogFile,
+			"Inference",
+			"INFO",
+			"Inference Started In SERVER Mode") 
+		NLU.app.run(host=NLU._confs["AI"]["IP"], port=NLU._confs["AI"]["Port"])
+		
+	elif sys.argv[1] == "INPUT":
+
+		NLU.setup()
+		NLU.setupEntities()
+
 		NLU.Logging.logMessage(
 			NLU.LogFile,
 			"Inference",
@@ -392,7 +424,7 @@ if __name__ == "__main__":
 		NLU.setThresholds(sys.argv[3])
     		
 		while True:
-    			
+
 			intent = input(">")
 
 			NLU.Logging.logMessage(
@@ -408,7 +440,7 @@ if __name__ == "__main__":
 				intent,
 				True)
 				
-			response = NLU.talk(intent)
+			response = NLU.communicate(intent)
 			
 			NLU.Logging.logMessage(
 				NLU.LogFile,

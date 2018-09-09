@@ -30,7 +30,7 @@
 #
 # Example Usage:
 #
-#   $ python3 client.py
+#   $ python3 client.py CLASSIFY 1 "Do you know what I am saying?"
 #
 ############################################################################################
 
