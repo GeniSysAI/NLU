@@ -303,6 +303,30 @@
                   "entities": []
             },
             {
+                  "intent": "Entiendo",
+                  "text": [
+                        "Do you understand what I am saying",
+                        "Do you understand me",
+                        "Do you know what I am saying",
+                        "Do you get me",
+                        "Comprendo",
+                        "Know what I mean"
+                  ],
+                  "responses": [
+                        "Well I would not be a very clever AI if I did not would I?",
+                        "I read you loud and clear!",
+                        "I do in deed!"
+                  ],
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
                   "intent": "Gossip",
                   "text": [
                         "I am bored gossip with me",
