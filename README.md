@@ -1,8 +1,8 @@
 # GeniSys NLU Engine
 [![GeniSys NLU Engine](images/GeniSys.png)](https://github.com/GeniSysAI/NLU)
 
-[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.1-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.1)
-[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.2-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.2)
+[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.2-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.2)
+[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.3-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.3)
 
 # About GeniSys AI
 
@@ -21,7 +21,6 @@ This tutorial will help you setup the NLU Engine required for your GeniSys netwo
 - Installing and setting up required software
 - Creating your intent and entity training data
 - Training your intent and entity classifiers
-- Testing your classifier locally
 - Testing your classifier locally in real time
 - Testing your classifier API via a client
 
@@ -56,7 +55,7 @@ The following is an unedited conversation within the basic capabilities provided
 2018-09-08 20:08:24|GeniSys|Reponse: No problem!
 ```
 
-In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, you can find out more about this later in the tutorial.
+In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, you can find out more about this later in the tutorial. Although none of the things I said were in the training data, the AI was capable of identifying my intent.
 
 # Operating System
 
@@ -138,7 +137,7 @@ To begin training, make sure you are all set up, navigate to the root of the pro
 
 [![Training Your NLU Engine](images/train-results.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
 
-# Communicating with your AI
+# Communicating with your AI Locally
 
 Now you have trained your AI, it is time to test her out! In this tutorial I will base my explanation on the conversation block at the beginning of this tutorial. 
 
@@ -147,6 +146,7 @@ As your AI is now trained, all you need to do (assuming you are in the project r
 ```
  $ python3 run.py INPUT  1 0.5
 ```
+
 What this does is starts up a session using the user ID of 1 and a threshold of 0.5, sometimes if your model is misclassifying it can help to play with this threshold. 
 
 [![Communicating with your AI](images/talk.jpg)](https://github.com/GeniSysAI/NLU/blob/master/run.py)
@@ -210,6 +210,36 @@ Due to a rather good idea I had, ;) basic functionality exists for parsing AIML 
 
 >Haha
 ```
+
+# Communicating with your AI Via The Internet
+
+In version 0.0.2, the functionality was added to enable accessing the NLU via a secure API endpoint. To start your NLU engine in server mode, you can enter the following commands into terminal:
+
+```
+ $ python3 run.py SERVER 0.5
+```
+
+This starts the server up and sets a threshold for classifications of 0.5. 
+
+If you used the provided [NGINX configuration](https://github.com/GeniSysAI/Server/blob/master/etc/nginx/sites-available/default "NGINX configuration") of the [GeniSys Server](https://github.com/GeniSysAI/Server/ "GeniSys Server") guide,
+
+```
+server_name Subdomain.Domain.TLD;
+
+location ~ ^/communicate/ {
+    proxy_pass http://###.###.#.###:5824/$uri$is_args$args;
+}
+```
+
+you will now be able to access your NLU by posting to http://www.YourDomain.com/communicate/infer/USERID, to do this, I provided an an API client programmed in Python which takes your input from console and sends it to the server for processing: [GeniSys API Client](https://github.com/GeniSysAI/NLU/blob/master/client.py "GeniSys API Client").
+
+Navigate to the project root and execute the following command to send a query to your NLU engine, you can use any question or statement, but bear in mind it must be within the boundaries of variations of the training date.
+
+```
+ $ python3 client.py CLASSIFY 1 "Do you know what I am saying?"
+```
+
+In other GeniSys AI tutorials, you will build applications and use the UI to train and manage the engine.
 
 # Stay Tuned!!
 

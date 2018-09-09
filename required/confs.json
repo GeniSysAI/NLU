@@ -1,6 +1,7 @@
 {
     "AI":{
         "Logs": "logs/",
+        "FQDN": "",
         "IP": "",
         "Port": 5824
 	}, 
@@ -8,12 +9,14 @@
         "Activation": "softmax",
         "TFLearn": {
             "Logs":"model/TFLearn",
-            "Path": "model/model.tflearn",
+            "LogsLevel": 3,
+            "Path": "model/nlu.tflearn",
             "Data": "model/model.json"
         },
+        "FcLayers": 3,
         "FcUnits": 32,
         "Epochs": 5000,
-        "BatchSize": 50,
+        "BatchSize": 32,
         "ShowMetric": true,
         "Entities": "Mitie",
         "EntitiesDat": "model/entities.dat",
