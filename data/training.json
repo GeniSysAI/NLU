@@ -303,6 +303,33 @@
                   "entities": []
             },
             {
+                  "intent": "WhoAmI",
+                  "text": [
+                        "Who am I",
+                        "Do you know who I am",
+                        "What is my name",
+                        "Who are you talking to",
+                        "Identify me",
+                        "Who am I please"
+                  ],
+                  "responses": [
+                        "Let me see",
+                        "Please look at the camera"
+                  ],
+                  "action":  {
+                        "function": "actions.Humans.getHumanByFace",
+                        "responses": [
+                              "Hi %%HUMAN%%, how are you?",
+                              "I believe you are %%HUMAN%%, how are you?",
+                              "You are %%HUMAN%%, how are you doing?"
+                        ]
+                  },
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
                   "intent": "Entiendo",
                   "text": [
                         "Do you understand what I am saying",

@@ -30,7 +30,7 @@
 #
 ############################################################################################
 
-import os, json, cv2, time 
+import os, json, time 
 from datetime import datetime
 
 class Logging(): 
