@@ -1,8 +1,8 @@
 # GeniSys NLU Engine
 [![GeniSys NLU Engine](images/GeniSys.png)](https://github.com/GeniSysAI/NLU)
 
-[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.2-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.2)
-[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.3-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.3)
+[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.3-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.3)
+[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.4-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.4)
 
 # About GeniSys AI
 
@@ -181,7 +181,7 @@ You can see that the example above was not in the training data, but the AI was 
 
 # Joking With Your AI
 
-Due to a rather good idea I had, ;) basic functionality exists for parsing AIML documents into a format suitable for training the NLU and adding it to the training data. Below is an example after training with a few jokes found in an AIML file provided by [Pandorabots]( https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml "Pandorabots")
+Due to a rather good idea I had, ;) basic functionality exists for parsing AIML documents into a format suitable for training the NLU and adding it to the training data. Below is an example after training with a few jokes found in an AIML file provided by [Pandorabots]( https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml "Pandorabots"), this file actually turned out to be written by one of my friends, 4 time Loebner Prize winner for most human like AI, Steve Worswick.
 
 ```
 2018-09-08 22:03:38|Inference|INFO: Inference Started In INPUT Mode
@@ -240,6 +240,20 @@ Navigate to the project root and execute the following command to send a query t
 ```
 
 In other GeniSys AI tutorials, you will build applications and use the UI to train and manage the engine.
+
+# Interacting With TASS Computer Vision
+
+The core and remote computer vision systems used by GeniSys are based on [TASS AI](https://www.tassai.tech "TASS AI"), if you have set up your [GeniSys AI Server](https://github.com/GeniSysAI/Server "GeniSys AI Server") and granted camera permissions to the UI, you will be able to see your self on the new dashboard. You can communicate with the NLU engine via the chat window to the right of the camera stream.
+
+A new feature recently added to the upcoming 0.0.3 release is the ability for you to ask the AI who you are. This feature uses a combination of the iotJumpWay TASS REST API, the local server camera and TASS to determine who it saw in the last 10 seconds. 
+
+[![Interacting With TASS Computer Vision](images/computer-vision.jpg)](https://github.com/GeniSysAI/Vision)
+
+Each time a TASS device detects a known human or an intruder it updates the iotJumpWay enabling you to keep track as they move around the house, this allows the network to know where people at any one time as long as there are TASS units set up in each room. 
+
+Using an action, the system will contact the iotJumpWay securely and retrieve any and all people it saw in the last five seconds. If it has not seen any one it will ask the user to look at the camera. 
+
+These features are the first steps towards a system wide user management system which will include emotional analysis and a number of other features.
 
 # Stay Tuned!!
 

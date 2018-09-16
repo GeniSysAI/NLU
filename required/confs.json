@@ -4,7 +4,7 @@
         "FQDN": "",
         "IP": "",
         "Port": 5824
-	}, 
+    }, 
 	"ClassifierSettings":{
         "Activation": "softmax",
         "TFLearn": {
@@ -46,6 +46,11 @@
         "MQTT": {
             "Username": "",
             "Password": ""
+        }, 
+        "API": {
+            "REST": "https://www.iotjumpway.tech/API/REST/",
+            "Public": "",
+            "Secret": ""
         }
     }
 }  
