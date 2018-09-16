@@ -1,8 +1,8 @@
 # GeniSys NLU Engine
 [![GeniSys NLU Engine](images/GeniSys.png)](https://github.com/GeniSysAI/NLU)
 
-[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.2-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.2)
-[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.3-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.3)
+[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.3-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.3)
+[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.4-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.4)
 
 # About GeniSys AI
 
