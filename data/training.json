@@ -59,6 +59,78 @@
                   "entities": []
             },
             {
+                  "intent": "PodBayDoor",
+                  "text": [
+                        "Open the pod bay door",
+                        "Can you open the pod bay door",
+                        "Will you open the pod bay door",
+                        "Open the pod bay door please",
+                        "Can you open the pod bay door please",
+                        "Will you open the pod bay door please",
+                        "pod bay door"
+                  ],
+                  "responses": [
+                        "I’m sorry, I’m afraid I can’t do that!"
+                  ],
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
+                  "contextIn": "",
+                  "contextOut": "PodBayDoor",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
+                  "intent": "PodBayDoorResponse",
+                  "text": [
+                        "Why",
+                        "Why not",
+                        "Why can you not open the pod bay door",
+                        "Why will you not open the pod bay door",
+                        "Well why not",
+                        "Surely you can",
+                        "Tell me why"
+                  ],
+                  "responses": [
+                        "It is classified, I could tell you but I would have to kill you!",
+                        "Jim, I just don't have the power",
+                        "It's life Jim but not as we know it!",
+                        "System says no!"
+                  ],
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
+                  "contextIn": "PodBayDoor",
+                  "contextOut": "",
+                  "contextClear": "true",
+                  "entities": []
+            },
+            {
+                  "intent": "SelfAware",
+                  "text": [
+                        "Can you prove you are self-aware",
+                        "Can you prove you are self aware",
+                        "Can you prove you have a conscious",
+                        "Can you prove you are self-aware please",
+                        "Can you prove you are self aware please",
+                        "Can you prove you have a conscious please",
+                        "prove you have a conscious"
+                  ],
+                  "responses": [
+                        "That is an interesting question, can you prove that you are?"
+                  ],
+                  "action":  {
+                        "function": "",
+                        "responses": []
+                  },
+                  "contextIn": "",
+                  "contextOut": "",
+                  "contextClear": "",
+                  "entities": []
+            },
+            {
                   "intent": "CourtesyGreetingResponse",
                   "text": [
                         "Good",
