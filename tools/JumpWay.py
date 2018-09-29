@@ -39,7 +39,7 @@ from tools.Helpers import Helpers
 from tools.Logging import Logging
 from Train         import Trainer
 
-class JumpWayREST():
+class JumpWay():
     
     def __init__(self):
         

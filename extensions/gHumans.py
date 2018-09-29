@@ -26,7 +26,7 @@
 # Title:         GeniSys NLU Time Helpers
 # Description:   Time helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
  
@@ -34,7 +34,7 @@ import os, time, json, hashlib, hmac
 
 from tools.Helpers     import Helpers
 from tools.Logging     import Logging
-from tools.JumpWayREST import JumpWayREST
+from tools.JumpWay     import JumpWay
 
 from datetime          import datetime
 
@@ -42,18 +42,18 @@ class Humans():
     
     def __init__(self):
         
-        self.Helpers      = Helpers()
-        self.Logging      = Logging()
-        self.JumpWayREST  = JumpWayREST()
+        self.Helpers = Helpers()
+        self.Logging = Logging()
+        self.JumpWay = JumpWay()
         
-        self._confs       = self.Helpers.loadConfigs()
-        self.LogFile      = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"Client/")
+        self._confs  = self.Helpers.loadConfigs()
+        self.LogFile = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"Client/")
         
         self.Logging.logMessage(
             self.LogFile,
-            "CLIENT",
-            "INFO",
-            "GeniSys AI JumpWay REST Client Ready")
+            "EXTENSIONS",
+            "HUMANS",
+            "Humans Extension Ready")
         
     def getHumanByFace(self, response):
 
@@ -63,32 +63,29 @@ class Humans():
         
         self.Logging.logMessage(
             self.LogFile,
+            "EXTENSIONS",
             "HUMANS",
-            "INFO",
             "Checking Camera...")
             
-        response = self.JumpWayREST.apiCall(
+        response = self.JumpWay.apiCall(
                                         cameraEnpoint, 
                                         data, 
                                         headers)
                             
         self.Logging.logMessage(
             self.LogFile,
-            "CLIENT",
-            "OK",
+            "EXTENSIONS",
+            "HUMANS",
             "Response: "+str(response)) 
 
         if response["Response"] == "OK":
-            
             responseLength = len(response["ResponseData"])
-
             if responseLength == 1:
                 message = "I detected " + str(responseLength) + " human, " + response["ResponseData"][0]["userid"]
             else:
                 message = "I detected " + str(responseLength) + " humans, "
 
             return message
-
         else:
             
             return response["ResponseMessage"]

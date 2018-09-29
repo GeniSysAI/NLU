@@ -13,6 +13,7 @@
             "Path": "model/nlu.tflearn",
             "Data": "model/model.json"
         },
+        "Regression": true,
         "FcLayers": 3,
         "FcUnits": 32,
         "Epochs": 5000,
@@ -41,7 +42,7 @@
         "Zone": 0,
         "Device": 0,
         "DeviceName" : "",
-        "App": 0,
+        "App": 72,
         "AppName" : "", 
         "MQTT": {
             "Username": "",

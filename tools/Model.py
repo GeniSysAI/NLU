@@ -26,7 +26,7 @@
 # Title:         GeniSys NLU Data Helper
 # Description:   Model helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
  
@@ -38,7 +38,6 @@ from tools.Helpers import Helpers
 class Model():
     
     def __init__(self):
-        
         self.setup()
         
     def setup(self):
@@ -46,7 +45,9 @@ class Model():
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
         
-    def saveModelData(self, path, data):
+    def saveModelData(self, path, data, tmodel):
+
+        tmodel.save(self._confs["ClassifierSettings"]['TFLearn']['Path'])
         
         with open(path, "w") as outfile:
             json.dump(data, outfile)
@@ -59,7 +60,9 @@ class Model():
             net = tflearn.fully_connected(net, self._confs["ClassifierSettings"]['FcUnits'])
 
         net = tflearn.fully_connected(net, len(y[0]), activation=str(self._confs["ClassifierSettings"]['Activation']))
-        net = tflearn.regression(net)
+
+        if self._confs["ClassifierSettings"]['Regression']:
+            net = tflearn.regression(net)
 
         return net
             
@@ -78,8 +81,6 @@ class Model():
                 n_epoch = self._confs["ClassifierSettings"]['Epochs'], 
                 batch_size = self._confs["ClassifierSettings"]['BatchSize'], 
                 show_metric = self._confs["ClassifierSettings"]['ShowMetric'])
-
-        tmodel.save(self._confs["ClassifierSettings"]['TFLearn']['Path'])
             
         self.saveModelData(
             self._confs["ClassifierSettings"]['TFLearn']['Data'],
@@ -88,8 +89,9 @@ class Model():
                 'classes': classes, 
                 'x': x, 
                 'y': y,
-                'iMap' : [intentMap]
-            })
+                'intentMap' : [intentMap]
+            },
+            tmodel)
 
     def buildDNN(self, x, y):
 

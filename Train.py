@@ -27,7 +27,7 @@
 # Description:   Trains the GeniSys NLU Engine
 # Configuration: required/confs.json
 # Training Data: data/training.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
  
@@ -54,12 +54,6 @@ class Trainer():
 
 		self._confs     = self.Helpers.loadConfigs()
 		self.LogFile    = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"Train/")
-		
-		self.Logging.logMessage(
-			self.LogFile,
-			"LogFile",
-			"INFO",
-			"NLU Trainer LogFile Set")
 
 		self.Model      = Model()
 		self.Data       = Data(self.Logging, self.LogFile)
@@ -74,12 +68,6 @@ class Trainer():
 	def setupData(self):
 
 		self.trainingData = self.Data.loadTrainingData()
-		
-		self.Logging.logMessage(
-			self.LogFile,
-			"Trainer",
-			"INFO",
-			"Loaded NLU Training Data")
 
 		self.words, self.classes, self.dataCorpus, self.intentMap = self.Data.prepareData(self.trainingData)
 		self.x, self.y = self.Data.finaliseData(self.classes, self.dataCorpus, self.words)
@@ -95,16 +83,16 @@ class Trainer():
 		if self._confs["ClassifierSettings"]["Entities"] == "Mitie":
 				
 			self.entityExtractor = Entities()
+				
+			self.entityExtractor.trainEntities(
+				self._confs["ClassifierSettings"]["Mitie"]["ModelLocation"],
+				self.trainingData) 
 		
 			self.Logging.logMessage(
 				self.LogFile,
 				"TRAIN",
 				"OK",
-				"NLU Trainer Entity Extractor Ready")
-				
-			self.entityExtractor.trainEntities(
-				self._confs["ClassifierSettings"]["Mitie"]["ModelLocation"],
-				self.trainingData) 
+				"NLU Trainer Entities Ready")
 		
 	def trainModel(self):
 		
@@ -122,12 +110,6 @@ class Trainer():
 			if userInput == 'No':  exit()
     		
 		humanStart, trainingStart = self.Helpers.timerStart()
-		
-		self.Logging.logMessage(
-			self.LogFile,
-			"TRAIN",
-			"INFO",
-			"NLU Model Training At " + humanStart)
 
 		self.jumpwayCl.publishToDeviceChannel(
 			"Training",
@@ -137,6 +119,7 @@ class Trainer():
 				"End" : "In Progress",
 				"Total" : "In Progress",
 				"Message" : "NLU Model Training At " + humanStart})
+
 		self.Model.trainDNN(
 			self.x,
 			self.y,

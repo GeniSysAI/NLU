@@ -26,14 +26,14 @@
 # Title:         GeniSys NLU Engine
 # Description:   Serves an NLU endpoint for intent / entity classification
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 # Example Usage:
 #
 #   $ python3 run.py TRAIN
 #   $ python3 run.py INPUT  1 0.5
 #   $ python3 run.py LOCAL  1 0.5 "Hi how are you?"
-#   $ python3 run.py SERVER
+#   $ python3 Run.py SERVER 0.5
 #
 ############################################################################################
  
@@ -41,25 +41,26 @@ import sys, os, random, json, string
 
 import JumpWayMQTT.Device as jumpWayDevice
 
-from   flask         import Flask, Response, request
-from   tools.Helpers import Helpers
-from   tools.Logging import Logging
-from   Train         import Trainer
-from   tools.Data    import Data
-from   tools.Model   import Model
-from   tools.Mitie   import Entities
-from   tools.Context import Context
-from   tools.Mitie   import Entities
+from   flask            import Flask, Response, request
+from   tools.Helpers    import Helpers
+from   tools.Logging    import Logging
+from   Train            import Trainer
+from   tools.Data       import Data
+from   tools.Model      import Model
+from   tools.Mitie      import Entities
+from   tools.Context    import Context
+from   tools.Mitie      import Entities
+from   tools.Extensions import Extensions
 
 parent = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(parent + '/MITIE/mitielib')
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+app    = Flask(__name__)
 
 class NLU():
     	
 	def __init__(self):
     		
-		self.app         = Flask(__name__)
 		self.Helpers     = Helpers()
 		self.Logging     = Logging()
 		self._confs      = self.Helpers.loadConfigs()
@@ -127,18 +128,14 @@ class NLU():
 		self.Data           = Data(self.Logging, self.LogFile)
 		self.Model          = Model()
 		self.Context        = Context()
+		self.Extensions     = Extensions()
 		
 		self.user           = {}
 		self.ner            = None
 		self.trainingData   = self.Data.loadTrainingData()
 		self.trainedData    = self.Data.loadTrainedData()
 
-		self.trainedWords   = self.trainedData["words"]
-		self.trainedClasses = self.trainedData["classes"]
-		self.x              = self.trainedData["x"]
-		self.y              = self.trainedData["y"]
-		self.intentMap      = self.trainedData["iMap"][0]
-
+		self.setTrainedData()
 		self.restoreEntitiesModel()
 		self.restoreModel()
 		
@@ -147,6 +144,14 @@ class NLU():
 			"NLU",
 			"INFO",
 			"NLU Ready")
+
+	def setTrainedData(self):
+
+		self.trainedWords   = self.trainedData["words"]
+		self.trainedClasses = self.trainedData["classes"]
+		self.x              = self.trainedData["x"]
+		self.y              = self.trainedData["y"]
+		self.intentMap      = self.trainedData["intentMap"][0]
 		
 	def restoreEntitiesModel(self):
 			
@@ -252,41 +257,48 @@ class NLU():
 																			self.user[self.userID])
 
 				if fallback and "fallbacks" in theIntent and len(theIntent["fallbacks"]):
+
 					response = self.entityExtractor.replaceResponseEntities(
-																		random.choice(theIntent["fallbacks"]),
-																		entityHolder)
-					action, actionResponses   = self.Helpers.setAction(theIntent)
+																	random.choice(theIntent["fallbacks"]),
+																	entityHolder)
+
+					extension, extensionResponses   = self.Extensions.setExtension(theIntent)
 					
 				elif "entityType" in theIntent and theIntent["entityType"] == "Numbers":
+
 					response = random.choice(theIntent["responses"])
-					action, actionResponses   = self.Helpers.setAction(theIntent)
+					extension, extensionResponses   = self.Extensions.setExtension(theIntent)
 					
 				elif not len(entityHolder) and len(theIntent["entities"]):
+
 					response = self.entityExtractor.replaceResponseEntities(
-																		random.choice(theIntent["fallbacks"]),
-																		entityHolder)
-					action, actionResponses   = self.Helpers.setAction(theIntent)
+																	random.choice(theIntent["fallbacks"]),
+																	entityHolder)
+
+					extension, extensionResponses   = self.Extensions.setExtension(theIntent)
 
 				elif clearEntities:
 					entityHolder = []
 					response = random.choice(theIntent["responses"])
-					action, actionResponses   = self.Helpers.setAction(theIntent)
+					extension, extensionResponses   = self.Extensions.setExtension(theIntent)
 
 				else:
+
 					response = self.entityExtractor.replaceResponseEntities(
-																		random.choice(theIntent["responses"]),
-																		entityHolder)
-					action, actionResponses   = self.Helpers.setAction(theIntent)
+																	random.choice(theIntent["responses"]),
+																	entityHolder)
 
-				if action != None:
+					extension, extensionResponses   = self.Extensions.setExtension(theIntent)
 
-					classParts     = action.split(".")
+				if extension != None:
+
+					classParts     = extension.split(".")
 					classFolder    = classParts[0]
 					className      = classParts[1]
 					
 					module         = __import__(classParts[0]+"."+classParts[1], globals(), locals(), [className])
-					actionClass    = getattr(module, className)()
-					response       = getattr(actionClass, classParts[2])(random.choice(actionResponses))
+					extensionClass    = getattr(module, className)()
+					response       = getattr(extensionClass, classParts[2])(random.choice(extensionResponses))
 
 				return {
 					"Response": "OK",
@@ -298,7 +310,7 @@ class NLU():
 						"ContextIn": contextIn,
 						"ContextOut": contextOut,
 						"Context": contextCurrent,
-						"Action": action,
+						"Extension": extension,
 						"Entities": entityHolder
 					}]
 				}
@@ -310,25 +322,25 @@ class NLU():
 
 				if fallback and fallback in theIntent and len(theIntent["fallbacks"]):
 					response = self.entityExtractor.replaceResponseEntities(
-																		random.choice(theIntent["fallbacks"]),
-																		entityHolder)
-					action, actionResponses   = None, []
+																	random.choice(theIntent["fallbacks"]),
+																	entityHolder)
+					extension, extensionResponses   = None, []
 
 				else:
 					response = self.entityExtractor.replaceResponseEntities(
 																		random.choice(theIntent["responses"]),
 																		entityHolder)
-					action, actionResponses   = self.Helpers.setAction(theIntent)
+					extension, extensionResponses   = self.Extensions.setExtension(theIntent)
 
-				if action != None:
+				if extension != None:
 
-					classParts     = action.split(".")
+					classParts     = extension.split(".")
 					classFolder    = classParts[0]
 					className      = classParts[1]
 					
 					module         = __import__(classParts[0]+"."+classParts[1], globals(), locals(), [className])
-					actionClass    = getattr(module, className)()
-					response       = getattr(actionClass, classParts[2])(random.choice(actionResponses))
+					extensionClass    = getattr(module, className)()
+					response       = getattr(extensionClass, classParts[2])(random.choice(extensionResponses))
 
 				else:
 					response = self.entityExtractor.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
@@ -343,7 +355,7 @@ class NLU():
 						"ContextIn": contextIn,
 						"ContextOut": contextOut,
 						"ContextCurrent": contextCurrent,
-						"Action": action,
+						"Extension": extension,
 						"Entities": entityHolder
 					}]
 				}
@@ -363,23 +375,22 @@ class NLU():
 					"ContextIn": "NA",
 					"ContextOut": "NA",
 					"ContextCurrent": contextCurrent,
-					"Action":"NA",
+					"Extension":"NA",
 					"Entities": entityHolder
 				}]
 			}
 
 NLU = NLU()
 
-@NLU.app.route("/infer/<int:userId>", methods = ["POST"])
+@app.route("/infer/<int:userId>", methods = ["POST"])
 def infer(userId):
 
 	NLU.initiateSession(userId)
 
 	if request.headers["Content-Type"] == "application/json":
-		query=request.json
+		query = request.json
 		response = NLU.communicate(query["query"])
 		print(response) 
-
 		return Response(response=json.dumps(response, indent=4, sort_keys=True), status=200, mimetype="application/json")
 	
 if __name__ == "__main__":
@@ -407,7 +418,8 @@ if __name__ == "__main__":
 			"Inference",
 			"INFO",
 			"Inference Started In SERVER Mode") 
-		NLU.app.run(host=NLU._confs["AI"]["IP"], port=NLU._confs["AI"]["Port"])
+
+		app.run(host=NLU._confs["AI"]["IP"], port=NLU._confs["AI"]["Port"])
 		
 	elif sys.argv[1] == "INPUT":
 
@@ -428,12 +440,6 @@ if __name__ == "__main__":
 			intent = input(">")
 
 			NLU.Logging.logMessage(
-				NLU.LogFile,
-				"Human",
-				"Intent",
-				intent)
-
-			NLU.Logging.logMessage(
 				NLU.ChatLogFile,
 				"Human",
 				"Intent",
@@ -443,20 +449,7 @@ if __name__ == "__main__":
 			response = NLU.communicate(intent)
 			
 			NLU.Logging.logMessage(
-				NLU.LogFile,
+				NLU.ChatLogFile,
 				"GeniSys",
 				"Raw Reponse",
 				str(response["ResponseData"])) 
-			
-			NLU.Logging.logMessage(
-				NLU.LogFile,
-				"GeniSys",
-				"Reponse",
-				response["ResponseData"][0]["Response"])
-				
-			NLU.Logging.logMessage(
-				NLU.ChatLogFile,
-				"GeniSys",
-				"Reponse",
-				response["ResponseData"][0]["Response"],
-				True)

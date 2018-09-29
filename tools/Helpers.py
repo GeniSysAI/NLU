@@ -26,7 +26,7 @@
 # Title:         GeniSys NLU Helpers
 # Description:   Helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
 
@@ -41,30 +41,12 @@ class Helpers():
         pass
 
     def loadConfigs(self):
-
         with open("required/confs.json") as configs:
             configs = json.loads(configs.read())
         return configs
-        
-    def actionClass(self, classString):
-        
-        return importlib.import_module(classString)
-
-    def setAction(self, intent):
-
-        actionResponses = []
-
-        action = intent["action"]["function"] if "function" in intent["action"] and intent["action"]["function"] !="" else None
-
-        if action != None:
-            actionResponses = intent["action"]["responses"]
-
-        return action, actionResponses
 
     def timerStart(self):
-
         return str(datetime.now()), time.time()
 
     def timerEnd(self, start):
-
         return time.time(), (time.time() - start), str(datetime.now())

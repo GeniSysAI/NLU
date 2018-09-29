@@ -2,7 +2,7 @@
 #
 # The MIT License (MIT)
 # 
-# GeniSys NLU Context Helper
+# GeniSys NLU Extension Core
 # Copyright (C) 2018 Adam Milton-Barker (AdamMiltonBarker.com)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,35 +23,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Title:         GeniSys NLU Context Helper
-# Description:   Context helper functions for GeniSys NLU.
+# Title:         GeniSys NLU Extension Core
+# Description:   Core extension functions for GeniSys NLU.
 # Configuration: required/confs.json
 # Last Modified: 2018-09-29
 #
 ############################################################################################
 
-class Context():
+import os, time, json, importlib
 
-	def setContexts(self, theIntent, session):
-		contextIn  = self.setContextIn(theIntent)
-		contextOut = self.setContextOut(theIntent)
-		context    = self.getCurrentContext(session)
-		return contextIn, contextOut, context
+from datetime import datetime
 
-	def checkClearContext(self, intent, override=0):
-		return True if "contextOut" in intent or override == 1 else "NA"
+class Extensions():
 
-	def setContextIn(self, intent):
-		return intent["contextIn"] if "contextIn" in intent else "NA"
+    def __init__(self):
+        pass
 
-	def setContextOut(self, intent):
-		return intent["contextOut"] if "contextOut" in intent else "NA"
+    def setExtension(self, intent):
 
-	def getCurrentContext(self, session):
-		return session["context"] if "context" in session else "NA"
+        extensionResponses = []
+        extension = intent["extension"]["function"] if "function" in intent["extension"] and intent["extension"]["function"] !="" else None
 
-	def checkSessionContext(self, session, intent):
-		if("context" in session and "contextIn" in intent and intent["contextIn"] == session["context"]) or not "context" in session or session["context"]=="": 
-			return True 
-		else: 
-			return False
+        if extension != None:
+            extensionResponses = intent["extension"]["responses"]
+
+        return extension, extensionResponses

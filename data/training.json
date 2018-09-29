@@ -20,7 +20,7 @@
                         "Hya, how can I help?",
                         "Hi, let me know what I can do for you?"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -49,7 +49,7 @@
                         "Hi, I am good thank you, how are you?",
                         "Hi, good thank you, how are you?"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -72,7 +72,7 @@
                   "responses": [
                         "I’m sorry, I’m afraid I can’t do that!"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -98,7 +98,7 @@
                         "It's life Jim but not as we know it!",
                         "System says no!"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -121,7 +121,7 @@
                   "responses": [
                         "That is an interesting question, can you prove that you are?"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -148,7 +148,7 @@
                         "Good, how can I help you?",
                         "That is good, what can I do for you?"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -172,7 +172,7 @@
                         "You can call me Geni (Jenny), but my real name is GeniSys",
                         "You can call me Geni (Jenny), but my real name is GeniSys" 
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -193,7 +193,7 @@
                         "GeniSys",
                         "My real name is GeniSys" 
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -218,7 +218,7 @@
                         "One sec",
                         "One second"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "actions.NLUtime.getTime",
                         "responses": [
                               "The time is %%TIME%%",
@@ -247,7 +247,7 @@
                         "I was trained well",
                         "Thanks, I was trained that way"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -272,7 +272,7 @@
                         "Fine, sorry to disturb you",
                         "OK, sorry to disturb you"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -294,7 +294,7 @@
                         "Have a nice day",
                         "Bye! Come back again soon."
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -316,7 +316,7 @@
                         "How rude",
                         "That is not very nice"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -340,7 +340,7 @@
                         "Not a problem! Have a nice day",
                         "Bye! Come back again soon."
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -365,7 +365,7 @@
                         "Any time!",
                         "My pleasure"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -388,7 +388,7 @@
                         "Let me see",
                         "Please look at the camera"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "actions.Humans.getHumanByFace",
                         "responses": [
                               "Hi %%HUMAN%%, how are you?",
@@ -416,7 +416,7 @@
                         "I read you loud and clear!",
                         "I do in deed!"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -536,7 +536,7 @@
                         "David said he gave I his email address and told I to send him a message but when he tried to read his email he could not get to it.",  
                         "Mel said he to because all of the music people say how important it is to take private lessons it seems like almost everybody from the special orchestra he was in takes private lessons."
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },
@@ -700,7 +700,7 @@
                         "My mate Sid was a victim of I.D. theft. Now we just call him S.",
                         "David Hasselhoff walks into a bar and says to the barman, 'I want you to call me David Hoff'.  The barman replies 'Sure thing Dave... no hassle'"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
                         "responses": []
                   },

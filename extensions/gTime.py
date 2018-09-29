@@ -26,7 +26,7 @@
 # Title:         GeniSys NLU Time Helpers
 # Description:   Time helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
  
@@ -40,5 +40,4 @@ class NLUtime():
         pass
         
     def getTime(self, response):
-        
         return response.replace("%%TIME%%", time.strftime("%c"))

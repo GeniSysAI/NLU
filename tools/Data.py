@@ -26,7 +26,7 @@
 # Title:         GeniSys NLU Data Helper
 # Description:   Data helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
 
@@ -166,34 +166,7 @@ class Data():
             classesHldr          = self.prepareClasses(theIntent, classesHldr)
             counter              = counter + 1
 
-        words   = self.sortList(self.extract(wordsHldr, True, False,  True))
-        classes = self.sortList(classesHldr)
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Corpus: "+str(dataCorpusHldr))
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Classes: "+str(classes))
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Words: "+str(words))
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Intent Map: "+str(intentMap))
-
-        return words, classes, dataCorpusHldr, intentMap
+        return self.sortList(self.extract(wordsHldr, True, False,  True)), self.sortList(classesHldr), dataCorpusHldr, intentMap
         
     def finaliseData(self, classes, dataCorpus, words):
 
