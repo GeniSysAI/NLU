@@ -45,14 +45,14 @@ class Entities():
     
     def __init__(self):
 
-		###############################################################
-		#
-		# Sets up all default requirements
-		#
-		# - Helpers: Useful global functions
-		# - LancasterStemmer: Word stemmer
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Sets up all default requirements
+        #
+        # - Helpers: Useful global functions
+        # - LancasterStemmer: Word stemmer
+        #
+        ###############################################################
         
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
@@ -61,22 +61,22 @@ class Entities():
         
     def restoreNER(self):
 
-		###############################################################
-		#
-		# Restores the NER model, in this case MITIE
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Restores the NER model, in this case MITIE
+        #
+        ###############################################################
          
         if os.path.exists(self._confs["NLU"]["EntitiesDat"]):
             return named_entity_extractor(self._confs["NLU"]["EntitiesDat"])
 
     def parseEntities(self, sentence, ner, trainingData):
 
-		###############################################################
-		#
-		# Parses entities in intents/sentences
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Parses entities in intents/sentences
+        #
+        ###############################################################
 
         entityHolder   = []
         fallback       = False
@@ -129,22 +129,22 @@ class Entities():
         
     def replaceResponseEntities(self, response, entityHolder):
 
-		###############################################################
-		#
-		# Replaces entities in responses
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Replaces entities in responses
+        #
+        ###############################################################
 
         for entity in entityHolder: response = response.replace("<"+entity["Entity"]+">", entity["ParsedEntity"].title())
         return response
 
     def replaceEntity(self, value, entity, trainingData):
 
-		###############################################################
-		#
-		# Replaces entities/synonyms
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Replaces entities/synonyms
+        #
+        ###############################################################
 
         lowEntity = value.lower()
         match     = True
@@ -162,11 +162,11 @@ class Entities():
 
     def trainEntities(self, mitiemLocation, trainingData):
 
-		###############################################################
-		#
-		# Trains the NER model
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Trains the NER model
+        #
+        ###############################################################
         
         trainer     = ner_trainer(mitiemLocation)
         counter     = 0

@@ -37,6 +37,12 @@ from datetime import datetime
 class Helpers():
 
     def __init__(self):
+
+		###############################################################
+		#
+		# Nothing to do
+		#
+		###############################################################
         pass
 
     def loadConfigs(self):

@@ -37,11 +37,11 @@ class Extensions():
 
     def setExtension(self, intent):
 
-		###############################################################
-		#
-		# Sets and returns the extension path and responses
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Sets and returns the extension path and responses
+        #
+        ###############################################################
 
         extensionResponses = []
         extension = intent["extension"]["function"] if intent["extension"]["function"] !="" else None

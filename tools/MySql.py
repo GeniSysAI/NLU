@@ -39,14 +39,14 @@ class MySql():
 
     def __init__(self):
 
-		###############################################################
-		#
-		# Sets up all default requirements and placeholders 
-		# needed for the MySql connection. 
-		#
-		# - Helpers: Useful global functions
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Sets up all default requirements and placeholders 
+        # needed for the MySql connection. 
+        #
+        # - Helpers: Useful global functions
+        #
+        ###############################################################
 
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
@@ -58,11 +58,11 @@ class MySql():
 
     def mysqlConnect(self):
 
-		###############################################################
-		#
-		# Connects to MySql using configuration in required/confs.json
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Connects to MySql using configuration in required/confs.json
+        #
+        ###############################################################
 
         try:
             self.mysqlDbConn = pymysql.connect(
@@ -76,6 +76,12 @@ class MySql():
 
     def setMysqlCursor(self):
 
+        ###############################################################
+        #
+        # Sets MySql cursor for a single row
+        #
+        ###############################################################
+
         try:
             self.mysqlDbCur = self.mysqlDbConn.cursor()
         except Exception as errorz:
@@ -83,6 +89,12 @@ class MySql():
             print(errorz)
 
     def setMysqlCursorRows(self):
+
+        ###############################################################
+        #
+        # Sets MySql cursor for a list of rows
+        #
+        ###############################################################
 
         try:
             self.mysqlDbCur = self.mysqlDbConn.cursor(pymysql.cursors.DictCursor)

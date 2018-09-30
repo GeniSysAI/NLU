@@ -39,6 +39,17 @@ from tools.Logging       import Logging
 class Data():
 
     def __init__(self):
+
+        ###############################################################
+        #
+        # Sets up all default requirements and placeholders 
+        # needed for the NLU engine to run. 
+        #
+        # - Helpers: Useful global functions
+        # - Logging: Logging class
+        # - LancasterStemmer: Word stemmer
+        #
+        ###############################################################
         
         self.ignore  = [',','.','!','?']
         
@@ -50,11 +61,11 @@ class Data():
             
     def loadTrainingData(self):
 
-		###############################################################
-		#
-		# Loads the NLU and NER training data from data/training.json
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Loads the NLU and NER training data from data/training.json
+        #
+        ###############################################################
 
         with open("data/training.json") as jsonData:
             trainingData = json.load(jsonData)
@@ -69,11 +80,11 @@ class Data():
 
     def loadTrainedData(self):
 
-		###############################################################
-		#
-		# Loads the saved training configuratuon
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Loads the saved training configuratuon
+        #
+        ###############################################################
     
         with open("model/model.json") as jsonData:
             modelData = json.load(jsonData)
@@ -88,43 +99,43 @@ class Data():
             
     def sortList(self, listToSort):
 
-		###############################################################
-		#
-		# Sorts a list by sorting the list, and removing duplicates 
+        ###############################################################
+        #
+        # Sorts a list by sorting the list, and removing duplicates 
         # 
         # https://www.programiz.com/python-programming/methods/built-in/sorted 
         # https://www.programiz.com/python-programming/list
         # https://www.programiz.com/python-programming/set
-		#
-		###############################################################
+        #
+        ###############################################################
 
         return sorted(list(set(listToSort)))
         
     def extract(self, data=None, splitIt=False):
 
-		###############################################################
-		#
-		# Extracts words from sentences, stripping out characters in 
+        ###############################################################
+        #
+        # Extracts words from sentences, stripping out characters in 
         # the ignore list above
         # 
         # https://www.nltk.org/_modules/nltk/stem/lancaster.html
         # http://insightsbot.com/blog/R8fu5/bag-of-words-algorithm-in-python-introduction
-		#
-		###############################################################
+        #
+        ###############################################################
         
         return [self.LancasterStemmer.stem(word) for word in (data.split() if splitIt == True else data) if word not in self.ignore]
 
     def makeBagOfWords(self, sInput, words):
 
-		###############################################################
-		#
-		# Makes a bag of words used by the inference and training 
+        ###############################################################
+        #
+        # Makes a bag of words used by the inference and training 
         # features. If makeBagOfWords is called during training, sInput 
         # will be a list.
         # 
         # http://insightsbot.com/blog/R8fu5/bag-of-words-algorithm-in-python-introduction
-		#
-		###############################################################
+        #
+        ###############################################################
         
         if type(sInput) == list:
             bagOfWords = []
@@ -144,22 +155,22 @@ class Data():
 
     def prepareClasses(self, intent, classes):
 
-		###############################################################
-		#
-		# Adds an intent key to classes if it does not already exist
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Adds an intent key to classes if it does not already exist
+        #
+        ###############################################################
 
         if intent not in classes: classes.append(intent)
         return classes
         
     def prepareData(self, trainingData = [], wordsHldr = [], dataCorpusHldr = [], classesHldr = []):
 
-		###############################################################
-		#
-		# Prepares the NLU and NER training data 
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Prepares the NLU and NER training data 
+        #
+        ###############################################################
 
         counter   = 0
         intentMap = {}
@@ -191,11 +202,11 @@ class Data():
         
     def finaliseData(self, classes, dataCorpus, words):
 
-		###############################################################
-		#
-		# Finalises the NLU training data 
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Finalises the NLU training data 
+        #
+        ###############################################################
 
         trainData = []
         out = np.zeros(len(classes))

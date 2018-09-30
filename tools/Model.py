@@ -42,24 +42,24 @@ class Model():
     
     def __init__(self):
 
-		###############################################################
-		#
-		# Sets up all default requirements
-		#
-		# - Helpers: Useful global functions
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Sets up all default requirements
+        #
+        # - Helpers: Useful global functions
+        #
+        ###############################################################
         
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
             
     def createDNNLayers(self, x, y):
 
-		###############################################################
-		#
-		# Sets up the DNN layers, configuration in required/confs.json
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Sets up the DNN layers, configuration in required/confs.json
+        #
+        ###############################################################
         
         net = tflearn.input_data(shape=[None, len(x[0])])
 
@@ -75,11 +75,11 @@ class Model():
             
     def trainDNN(self, x, y, words, classes, intentMap):
 
-		###############################################################
-		#
-		# Trains the DNN, configuration in required/confs.json
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Trains the DNN, configuration in required/confs.json
+        #
+        ###############################################################
 
         tf.reset_default_graph()
 
@@ -108,12 +108,12 @@ class Model():
         
     def saveModelData(self, path, data, tmodel):
 
-		###############################################################
-		#
-		# Saves the model data for TFLearn and the NLU engine, 
+        ###############################################################
+        #
+        # Saves the model data for TFLearn and the NLU engine, 
         # configuration in required/confs.json
-		#
-		###############################################################
+        #
+        ###############################################################
 
         tmodel.save(self._confs["NLU"]['TFLearn']['Path'])
         
@@ -122,11 +122,11 @@ class Model():
 
     def buildDNN(self, x, y):
 
-		###############################################################
-		#
-		# Loads the DNN model, configuration in required/confs.json
-		#
-		###############################################################
+        ###############################################################
+        #
+        # Loads the DNN model, configuration in required/confs.json
+        #
+        ###############################################################
 
         tf.reset_default_graph()
         tmodel = tflearn.DNN(self.createDNNLayers(x, y))
