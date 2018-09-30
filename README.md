@@ -1,8 +1,8 @@
 # GeniSys NLU Engine
 [![GeniSys NLU Engine](images/GeniSys.png)](https://github.com/GeniSysAI/NLU)
 
-[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.3-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.3)
-[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.4-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.4)
+[![CURRENT RELEASE](https://img.shields.io/badge/CURRENT%20RELEASE-0.0.4-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.4)
+[![UPCOMING RELEASE](https://img.shields.io/badge/UPCOMING%20RELEASE-0.0.5-blue.svg)](https://github.com/GeniSysAI/NLU/tree/0.0.5)
 
 # About GeniSys AI
 
@@ -10,7 +10,7 @@ GeniSys AI is an open source Artificial Intelligence Assistant Network using Com
 
 # About GeniSys NLU Engine
 
-I orginally developed what is now the [GeniSys NLU Engine](https://github.com/GeniSysAI/NLU "GeniSys NLU Engine") back in 2017 ([How I built a fully functional Deep Learning Neural Network chatbot platform (NLU Engine) in under a week....](https://www.techbubble.info/blog/artificial-intelligence/chatbots/entry/deep-learning-neural-network-nlu-engine "How I built a fully functional Deep Learning Neural Network chatbot platform (NLU Engine) in under a week....")). The project was originally developed to take over **DialogFlow**, or what was known back then as **API.AI** in some commercial AI projects I had built, after I closed the business down it became a personal project for my home and as I have open sourced most of my other projects, it made sense to open source this one.
+I orginally developed what is now the [GeniSys NLU Engine](https://github.com/GeniSysAI/NLU "GeniSys NLU Engine") back in 2017 ([How I built a fully functional Deep Learning Neural Network chatbot platform (NLU Engine) in under a week....](https://www.techbubble.info/blog/artificial-intelligence/chatbots/entry/deep-learning-neural-network-nlu-engine "How I built a fully functional Deep Learning Neural Network chatbot platform (NLU Engine) in under a week....")). The project was originally developed to be used in some commercial AI projects I had built, after I closed the business down it became a personal project for my home and as I have open sourced most of my other projects, it made sense to open source this one.
 
 The NLU Engine includes a combination of a custom trained DNN (Deep Learning Neural Network) built using [TFLearn](http://tflearn.org/ "TFLearn") for intent classification, and a custom trained [MITIE](https://github.com/mit-nlp/MITIE "MITIE") model for entity classification. The engine can can handle not only named entities, but synonyms also and both features are used by the core training module.
 
@@ -29,33 +29,40 @@ This tutorial will help you setup the NLU Engine required for your GeniSys netwo
 The following is an unedited conversation within the basic capabilities provided by the example training data (The full response print out has been removed to make it easy to follow the conversation):
 
 ```
->Hi how are you today?
-2018-09-08 20:07:18|Human|Intent: Hi how are you today?
-2018-09-08 20:07:18|GeniSys|STATUS: Processing
-2018-09-08 20:07:18|GeniSys|Reponse: Hi, I am good thank you, how are you?
->I am very good thank you for asking
-2018-09-08 20:07:29|Human|Intent: I am very good thank you for asking
-2018-09-08 20:07:29|GeniSys|STATUS: Processing
-2018-09-08 20:07:29|GeniSys|Reponse: Good, how can I help you?
->What would I call you if I were to speak to you?
-2018-09-08 20:07:47|Human|Intent: What would I call you if I were to speak to you?
-2018-09-08 20:07:47|GeniSys|STATUS: Processing
-2018-09-08 20:07:47|GeniSys|Reponse: You can call me Geni (Jenny), but my real name is GeniSys
->thank you
-2018-09-08 20:07:55|Human|Intent: thank you
-2018-09-08 20:07:55|GeniSys|STATUS: Processing
-2018-09-08 20:07:55|GeniSys|Reponse: My pleasure
->Would you happen to know what time it is ?
-2018-09-08 20:08:13|Human|Intent: Would you happen to know what time it is ?
-2018-09-08 20:08:13|GeniSys|STATUS: Processing
-2018-09-08 20:08:13|GeniSys|Reponse: Right now it is Sat Sep  8 20:08:13 2018
->cool thank you
-2018-09-08 20:08:24|Human|Intent: cool thank you
-2018-09-08 20:08:24|GeniSys|STATUS: Processing
-2018-09-08 20:08:24|GeniSys|Reponse: No problem!
+>Hi
+2018-09-30 22:58:37|Human|Intent: Hi
+2018-09-30 22:58:37|GeniSys|Reponse: Hello human, please tell me your GeniSys user
+
+>It is Adam of course!
+2018-09-30 22:58:44|Human|Intent: It is Adam of course!
+2018-09-30 22:58:44|GeniSys|Reponse: Hello Adam, what can I do for you?
+
+>If I was your friend, what would I call you?
+2018-09-30 22:58:54|Human|Intent: If I was your friend, what would I call you?
+2018-09-30 22:58:54|GeniSys|Reponse: Call me Geni
+
+>Ok but what is your real name?
+2018-09-30 22:59:01|Human|Intent: Ok but what is your real name?
+2018-09-30 22:59:01|GeniSys|Reponse: My name is GeniSys
+
+>Ok thanks
+2018-09-30 22:59:10|Human|Intent: Ok thanks
+2018-09-30 22:59:10|GeniSys|Reponse: Any time!
+
+>Please tell me, what is my name?
+2018-09-30 22:59:22|Human|Intent: Please tell me, what is my name?
+2018-09-30 22:59:22|GeniSys|Reponse: Your name is Adam, how can I help you?
+
+>I don't suppose you know what time it is?
+2018-09-30 22:59:32|Human|Intent: I don't suppose you know what time it is?
+2018-09-30 22:59:32|GeniSys|Reponse: The time is Sun Sep 30 22:59:32 2018
+
+>Ah cool thanks
+2018-09-30 22:59:37|Human|Intent: Ah cool thanks
+2018-09-30 22:59:37|GeniSys|Reponse: My pleasure
 ```
 
-In the conversation above, when I asked the time, the action attached to the related intent in the training data is triggered, basically an action is the path to a function in one of your custom classes, you can find out more about this later in the tutorial. Although none of the things I said were in the training data, the AI was capable of identifying my intent.
+In the conversation above, when I asked the time, the extension attached to the related intent in the training data is triggered, basically an extension is the path to a function in one of your custom classes, you can find out more about this later in the tutorial. Although hardly any of the things I said were entirely provided in the training data, the AI was capable of identifying my intent.
 
 # Operating System
 
@@ -78,6 +85,14 @@ In the conversation above, when I asked the time, the action attached to the rel
 - 1 x Desktop device or laptop for development and training, prefereably with an NVIDIA GPU
 
 # Installation & Setup
+
+The following guides will give you the basics of setting up a GeniSys NLU Engine. 
+
+# Prerequisites
+
+You must of already completed the setup following project:
+
+- [GeniSys Server](https://github.com/GeniSysAI/Server "GeniSys Server")
 
 The following guides will give you the basics of setting up a GeniSys NLU Engine. 
 
@@ -121,13 +136,29 @@ Once you have set up your iotJumpWay device, you should update the [configuratio
 
 # Training Data
 
-Now it is time to think about training data. In the [data/training.json](https://github.com/GeniSysAI/NLU/blob/master/data/training.json "data/training.json") file I have provided some starter data, it is not a lot but enough to have a good test and show the example further on in the tutorial. The example will show how you can attach actions to your intents in your training data which map to functions in your custum python classes, if you have seen the videos on my YouTube about the AI Ecommerce I made last year, a similar approach was uses in that system using DialogFlow. 
+Now it is time to think about training data. In the [data/training.json](https://github.com/GeniSysAI/NLU/blob/master/data/training.json "data/training.json") file I have provided some starter data, it is not a lot but enough to have a good test and show the example further on in the tutorial. 
+
+## Extensions
+
+Extensions are external Python classes that you can use to extend the functionality used to generate a response. Extensions should be stored in the [extensions](https://github.com/GeniSysAI/NLU/tree/0.0.4/extensions "extensions") directory. Below is an example configuration that is used to execute the gTime -> getTime function. Defined responses with placeholders specified by %%, once the function is ready it will return a modified response replacing %%TIME%% with the actual time. This response will override any response previously selected. For a more detailed extension, check out gHumans which uses MySql to manage the users GeniSys interacts with. 
+
+```
+"extension":  {
+    "function": "extensions.gTime.getTime",
+    "entities": false,
+    "responses": [
+        "The time is %%TIME%%",
+        "Right now it is %%TIME%%",
+        "It is around %%TIME%%"
+    ]
+}
+```
 
 # Training Your NLU Engine
 
 [![Training Your NLU Engine](images/train-confirmation.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
 
-Now everything is set up, it is time to train. The main functionality for the training process can be found in [Train.py](https://github.com/GeniSysAI/NLU/blob/master/Train.py "Train.py"), [tools/Data.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Data.py "tools/Data.py"), [tools/Model.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Model.py "tools/Model.py") and  [tools/Mitie.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Mitie.py "tools/Mitie.py"), the configuration for training can be found and modified in [required/confs.json](https://github.com/GeniSysAI/NLU/blob/master/required/confs.json "required/confs.json").
+Now everything is set up, it is time to train. The main functionality for the training process can be found in [Train.py](https://github.com/GeniSysAI/NLU/blob/master/Train.py "Train.py"), [tools/Data.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Data.py "tools/Data.py"), [tools/Model.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Model.py "tools/Model.py") and  [tools/Mitie.py](https://github.com/GeniSysAI/NLU/blob/master/tools/Mitie.py "tools/Mitie.py"), the configuration for training can be found and modified in [required/confs.json](https://github.com/GeniSysAI/NLU/blob/master/required/confs.json "required/confs.json"). If you have modified your training data, you may need to update your configuration from time to time. 
 
 To begin training, make sure you are all set up, navigate to the root of the project and execute the following command:
 
@@ -137,6 +168,20 @@ To begin training, make sure you are all set up, navigate to the root of the pro
 
 [![Training Your NLU Engine](images/train-results.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
 
+# Tensorboard
+
+You can use Tensorboard to see how your deep neural network has done during training. If you used the [default Nginx configuration](https://github.com/GeniSysAI/Server/blob/master/etc/nginx/sites-available/default "default Nginx configuration") then you should be able to access Tensorboard on **YourDomainName/tensorboard/**, note the / at the end of **tensorboard/** is required.
+
+Once training has finished you can start Tensorboard with the following commands: 
+
+```
+ $  tensorboard --logdir model/TFLearn
+```
+
+[![NLU Engine Accuracy](images/accuracy.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
+
+[![NLU Engine Accuracy](images/loss.jpg)](https://github.com/GeniSysAI/NLU/blob/master/Train.py)
+
 # Communicating with your AI Locally
 
 Now you have trained your AI, it is time to test her out! In this tutorial I will base my explanation on the conversation block at the beginning of this tutorial. 
@@ -144,36 +189,20 @@ Now you have trained your AI, it is time to test her out! In this tutorial I wil
 As your AI is now trained, all you need to do (assuming you are in the project root), is execute the following code:
 
 ```
- $ python3 run.py INPUT  1 0.5
+ $ python3 run.py INPUT
 ```
 
-What this does is starts up a session using the user ID of 1 and a threshold of 0.5, sometimes if your model is misclassifying it can help to play with this threshold. 
-
-[![Communicating with your AI](images/talk.jpg)](https://github.com/GeniSysAI/NLU/blob/master/run.py)
-
-In the case of the example, the action (actions.NLUtime.getTime) converts the %%TIME%% value in a randomly chosen action response and replaces the original response. You can write your own functionality or link the response to other modules as you like, the limit is your imagination ;) 
+If you have looked through the example data, you may notice that almost none of the things that I said in the above dialogue had been directly trained to the AI. For example, with the question **If I was your friend, what would I call you?**, the actual training data provided to the AI related to this question is actually:
 
 ```
-"action":  {
-    "function": "actions.NLUtime.getTime",
-    "responses": [
-        "The time is %%TIME%%",
-        "Right now it is %%TIME%%",
-        "It is around %%TIME%%"
-    ]
-}
-```
-
-Regarding the classifications in general, if you have looked through the example data, you may notice that none of the things that I said in the above script had been directly trained to the AI. For example, with the question **What would I call you if I were to speak to you?**, the actual training data provided to the AI related to this question is actually:
-
-```
+"intent": "NameQuery",
 "text": [
-    "What is your name",
-    "Whats your name",
-    "What do they call you",
-    "What can I call you",
-    "Who are you",
-    "Tell me your name"
+    "What is your name?",
+    "What could I call you?",
+    "What can I call you?",
+    "What do your friends call you?",
+    "Who are you?",
+    "Tell me your name?"
 ]
 ```
 
@@ -181,31 +210,22 @@ You can see that the example above was not in the training data, but the AI was 
 
 # Joking With Your AI
 
-Due to a rather good idea I had, ;) basic functionality exists for parsing AIML documents into a format suitable for training the NLU and adding it to the training data. Below is an example after training with a few jokes found in an AIML file provided by [Pandorabots]( https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml "Pandorabots"), this file actually turned out to be written by one of my friends, 4 time Loebner Prize winner for most human like AI, Steve Worswick.
+Basic functionality exists for parsing AIML documents into a format suitable for training the NLU and adding it to the training data. Below is an example after training with a few jokes found in an AIML file provided by [Pandorabots]( https://github.com/pandorabots/Free-AIML/blob/master/jokes.aiml "Pandorabots"), this file actually turned out to be written by one of my friends, 4 time Loebner Prize winner for most human like AI, Steve Worswick.
 
 ```
 2018-09-08 22:03:38|Inference|INFO: Inference Started In INPUT Mode
 2018-09-08 22:03:38|Session|INFO: NLU Session Ready For User #1
 
 >I bet you are not funny, can you tell me a joke?
-
 2018-09-08 22:03:51|Human|Intent: I bet you are not funny, can you tell me a joke?
-2018-09-08 22:03:51|GeniSys|STATUS: Processing
-
 2018-09-08 22:03:51|GeniSys|Reponse: A man returns from an exotic holiday and is feeling very ill. He goes to see his doctor, and is immediately rushed to the hospital to undergo some tests. The man wakes up after the tests in a private room at the hospital, and the phone by his bed rings. 'This is your doctor. We have the results back from your tests and we have found you have an extremely nasty disease called M.A.D.S. It's a combination of Measles, AIDS, Diphtheria, and Shingles!'  'Oh my gosh', cried the man, 'What are you going to do, doctor?'  'Well we're going to put you on a diet of pizzas, pancakes, and pita bread.' replied the doctor.  'Will that cure me?' asked the man.  The doctor replied, 'Well no, but, it's the only food we can slide under the door.'
 
 >Not bad, tell me another joke
-
 2018-09-08 22:04:12|Human|Intent: Not bad, tell me another joke
-2018-09-08 22:04:12|GeniSys|STATUS: Processing
-
 2018-09-08 22:04:12|GeniSys|Reponse: A doctor thoroughly examined his patient and said, 'Look I really can't find any reason for this mysterious affliction. It's probably due to drinking.' The patient sighed and snapped, 'In that case, I'll come back when you're damn well sober!'
 
 >Alcohol jokes are always funny! You can tell me another joke
-
 2018-09-08 22:04:40|Human|Intent: Alcohol jokes are always funny! You can tell me another joke
-2018-09-08 22:04:40|GeniSys|STATUS: Processing
-
 2018-09-08 22:04:40|GeniSys|Reponse: Man: Doctor, I've just swallowed a pillow. Doctor: How do you feel? Man: A little down in the mouth.
 
 >Haha
@@ -263,7 +283,7 @@ There are more features from my original version that are still yet to be implem
 Please read [CONTRIBUTING.md](https://github.com/GeniSysAI/NLU/blob/master/CONTRIBUTING.md "CONTRIBUTING.md") for details on our code of conduct, and the process for submitting pull requests to us.
 
 # Versioning
-We use SemVer for versioning. For the versions available, see the tags on this repository and [RELEASES.md](https://github.com/GeniSysAI/NLU/blob/master/RELEASES.md "RELEASES.md").
+We use SemVer for versioning. For the versions available, see [GeniSysAI/NLU/releases](https://github.com/GeniSysAI/NLU/releases "GeniSysAI/NLU/releases").
 
 # License
 This project is licensed under the **MIT License** - see the [LICENSE](https://github.com/GeniSysAI/NLU/blob/master/LICENSE "LICENSE") file for details.

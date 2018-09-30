@@ -12,269 +12,333 @@
                         "Hya there"
                   ],
                   "responses": [
-                        "Hello, how are you?",
-                        "Hi, how are you?",
-                        "Hola, how can I help?",
-                        "Hi, what can I do for you?",
-                        "Hi, do you need me to do something for you?",
-                        "Hya, how can I help?",
-                        "Hi, let me know what I can do for you?"
+                        "Hi human, please tell me your GeniSys user",
+                        "Hello human, please tell me your GeniSys user",
+                        "Hola human, please tell me your GeniSys user"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "Greeting",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "GreetingUserRequest",
+                        "clear": false
+                  },
+                  "entityType": "NA",
                   "entities": []
+            },
+            {
+                  "intent": "GreetingResponse",
+                  "text": [
+                        "My user is Adam",
+                        "This is Adam",
+                        "I am Adam",
+                        "It is Adam",
+                        "My user is Bella",
+                        "This is Bella",
+                        "I am Bella",
+                        "It is Bella"
+                  ],
+                  "responses": [
+                        "Great! Hi <HUMAN>! How can I help?",
+                        "Good! Hi <HUMAN>, how can I help you?",
+                        "Cool! Hello <HUMAN>, what can I do for you?",
+                        "OK! Hola <HUMAN>, how can I help you?",
+                        "OK! hi <HUMAN>, what can I do for you?"
+                  ],
+                  "extension":  {
+                        "function": "extensions.gHumans.updateHuman",
+                        "entities": true,
+                        "responses": [
+                              "Hi %%HUMAN%%! How can I help?",
+                              "Hi %%HUMAN%%, how can I help you?",
+                              "Hello %%HUMAN%%, what can I do for you?",
+                              "Hola %%HUMAN%%, how can I help you?",
+                              "OK hi %%HUMAN%%, what can I do for you?"
+                        ]
+                  },
+                  "context":  {
+                        "in": "GreetingUserRequest",
+                        "out": "",
+                        "clear": true
+                  },
+                  "entities": [
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 3,
+                              "rangeTo": 4
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 2,
+                              "rangeTo": 3
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 1,
+                              "rangeTo": 2
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 2,
+                              "rangeTo": 3
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 3,
+                              "rangeTo": 4
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 2,
+                              "rangeTo": 3
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 1,
+                              "rangeTo": 2
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 2,
+                              "rangeTo": 3
+                        }
+                  ]
             },
             {
                   "intent": "CourtesyGreeting",
                   "text": [
-                        "How are you",
-                        "Hi how are you",
-                        "Hello how are you",
-                        "Hola how are you",
-                        "How are you doing",
-                        "Hope you are doing well",
-                        "Hello hope you are doing well"
+                        "How are you?",
+                        "Hi how are you?",
+                        "Hello how are you?",
+                        "Hola how are you?",
+                        "How are you doing?",
+                        "Hope you are doing well?",
+                        "Hello hope you are doing well?"
                   ],
                   "responses": [
-                        "Hello, I am great, how are you?",
-                        "Hello, how are you? I am great thanks!",
-                        "Hello, I am good thank you, how are you?",
-                        "Hi, I am great, how are you?",
-                        "Hi, how are you? I am great thanks!",
-                        "Hi, I am good thank you, how are you?",
-                        "Hi, good thank you, how are you?"
+                        "Hello, I am great, how are you? Please tell me your GeniSys user",
+                        "Hello, how are you? I am great thanks! Please tell me your GeniSys user",
+                        "Hello, I am good thank you, how are you? Please tell me your GeniSys user",
+                        "Hi, I am great, how are you? Please tell me your GeniSys user",
+                        "Hi, how are you? I am great thanks! Please tell me your GeniSys user",
+                        "Hi, I am good thank you, how are you? Please tell me your GeniSys user",
+                        "Hi, good thank you, how are you? Please tell me your GeniSys user"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "CourtesyGreeting",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "CourtesyGreetingUserRequest",
+                        "clear": true
+                  },
+                  "entityType": "NA",
                   "entities": []
             },
             {
                   "intent": "CourtesyGreetingResponse",
                   "text": [
-                        "Good",
-                        "Good thank you",
-                        "I am good thank you",
-                        "Great",
-                        "Great thank you",
-                        "I am great thank you",
-                        "I am OK thanks"
+                        "Good thanks! My user is Adam",
+                        "Good thanks! This is Adam",
+                        "Good thanks! I am Adam",
+                        "Good thanks! It is Adam",
+                        "Great thanks! My user is Bella",
+                        "Great thanks! This is Bella",
+                        "Great thanks! I am Bella",
+                        "Great thanks! It is Bella"
                   ],
                   "responses": [
-                        "Great! How can I help?",
-                        "That is good, how can I help you?",
-                        "Very good, what can I do for you?",
-                        "Good, how can I help you?",
-                        "That is good, what can I do for you?"
+                        "Great! Hi <HUMAN>! How can I help?",
+                        "Good! Hi <HUMAN>, how can I help you?",
+                        "Cool! Hello <HUMAN>, what can I do for you?",
+                        "OK! Hola <HUMAN>, how can I help you?",
+                        "OK! hi <HUMAN>, what can I do for you?"
                   ],
-                  "action":  {
-                        "function": "",
-                        "responses": []
+                  "extension":  {
+                        "function": "extensions.gHumans.updateHuman",
+                        "entities": true,
+                        "responses": [
+                              "Great %%HUMAN%%! How can I help?",
+                              "Good %%HUMAN%%, how can I help you?",
+                              "Cool %%HUMAN%%, what can I do for you?",
+                              "OK %%HUMAN%%, how can I help you?",
+                              "OK hi %%HUMAN%%, what can I do for you?"
+                        ]
                   },
-                  "contextIn": "CourtesyGreeting",
-                  "contextOut": "",
-                  "contextClear": "True",
+                  "context":  {
+                        "in": "GreetingUserRequest",
+                        "out": "",
+                        "clear": true
+                  },
+                  "entities": [
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 5,
+                              "rangeTo": 6
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 4,
+                              "rangeTo": 5
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 3,
+                              "rangeTo": 4
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 4,
+                              "rangeTo": 5
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 5,
+                              "rangeTo": 6
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 4,
+                              "rangeTo": 5
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 3,
+                              "rangeTo": 4
+                        },
+                        {
+                              "entity": "HUMAN",
+                              "rangeFrom": 3,
+                              "rangeTo": 4
+                        }
+                  ]
+            },
+            {
+                  "intent": "CurrentHumanQuery",
+                  "text": [
+                        "Who are you talking to?",
+                        "Who am I?",
+                        "What is my name?",
+                        "Who do you think I am?",
+                        "What do you think I am?",
+                        "What do you call me?",
+                        "Hya there"
+                  ],
+                  "responses": [
+                        "You are <HUMAN>! How can I help?",
+                        "Your name is  <HUMAN>, how can I help you?",
+                        "They call you <HUMAN>, what can I do for you?",
+                        "Your name is <HUMAN>, how can I help you?",
+                        "<HUMAN>, what can I do for you?"],
+                  "extension":  {
+                        "function": "extensions.gHumans.getCurrentHuman",
+                        "entities": false,
+                        "responses": [
+                              "You are %%HUMAN%%! How can I help?",
+                              "Your name is  %%HUMAN%%, how can I help you?",
+                              "They call you %%HUMAN%%, what can I do for you?",
+                              "Your name is %%HUMAN%%, how can I help you?",
+                              "%%HUMAN%%, what can I do for you?"
+                        ]
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "CurrentHumanQuery",
+                        "clear": false
+                  },
+                  "entityType": "NA",
                   "entities": []
             },
             {
                   "intent": "NameQuery",
                   "text": [
-                        "What is your name",
-                        "Whats your name",
-                        "What do they call you",
-                        "What can I call you",
-                        "Who are you",
-                        "Tell me your name"
+                        "What is your name?",
+                        "What could I call you?",
+                        "What can I call you?",
+                        "What do your friends call you?",
+                        "Who are you?",
+                        "Tell me your name?"
                   ],
                   "responses": [
-                        "My name is GeniSys, you can call me Geni (Jenny)",
-                        "You can call me Geni (Jenny), but my real name is GeniSys",
-                        "You can call me Geni (Jenny), but my real name is GeniSys" 
+                        "You can call me Geni",
+                        "You may call me Geni",
+                        "Call me Geni"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             },
             {
                   "intent": "RealNameQuery", 
                   "text": [
-                        "What is your real name",
-                        "Whats your real name",
-                        "Tell me your real name"
+                        "What is your real name?",
+                        "What is your real name please?",
+                        "What's your real name?",
+                        "Tell me your real name?",
+                        "Your real name?",
+                        "Your real name please?",
+                        "Your real name please?"
                   ],
                   "responses": [
                         "My name is GeniSys",
                         "GeniSys",
                         "My real name is GeniSys" 
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             },
             { 
                   "intent": "TimeQuery",
                   "text": [
-                        "What is the time",
-                        "What's the time",
-                        "Do you know what time it is",
-                        "Do you know the time",
-                        "Can you tell me the time",
-                        "Tell me what time it is",
-                        "Genious"
+                        "What is the time?",
+                        "What's the time?",
+                        "Do you know what time it is?",
+                        "Do you know the time?",
+                        "Can you tell me the time?",
+                        "Tell me what time it is?",
+                        "Time"
                   ],
                   "responses": [
                         "One moment",
                         "One sec",
                         "One second"
                   ],
-                  "action":  {
-                        "function": "actions.NLUtime.getTime",
+                  "extension":  {
+                        "function": "extensions.gTime.getTime",
+                        "entities": false,
                         "responses": [
                               "The time is %%TIME%%",
                               "Right now it is %%TIME%%",
                               "It is around %%TIME%%"
                         ]
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
-                  "entities": []
-            },
-            { 
-                  "intent": "Clever",
-                  "text": [
-                        "You are very clever",
-                        "You are a very clever girl",
-                        "You are very intelligent",
-                        "You are a very intelligent girl",
-                        "You are a genious",
-                        "Clever girl",
-                        "Genious"
-                  ],
-                  "responses": [
-                        "Thank you, I was trained that way",
-                        "I was trained well",
-                        "Thanks, I was trained that way"
-                  ],
-                  "action":  {
-                        "function": "",
-                        "responses": []
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
-                  "entities": []
-            },
-            {
-                  "intent": "Shutup",
-                  "text": [
-                        "Be quiet",
-                        "Shut up",
-                        "Stop talking",
-                        "Enough talking",
-                        "Please be quiet",
-                        "Quiet",
-                        "Shhh"
-                  ],
-                  "responses": [
-                        "I am sorry to disturb you",
-                        "Fine, sorry to disturb you",
-                        "OK, sorry to disturb you"
-                  ],
-                  "action":  {
-                        "function": "",
-                        "responses": []
-                  },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
-                  "entities": []
-            },
-            {
-                  "intent": "GoodBye",
-                  "text": [
-                        "Bye",
-                        "Adios",
-                        "See you later",
-                        "Goodbye"
-                  ],
-                  "responses": [
-                        "See you later",
-                        "Have a nice day",
-                        "Bye! Come back again soon."
-                  ],
-                  "action":  {
-                        "function": "",
-                        "responses": []
-                  },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
-                  "entities": []
-            },
-            {
-                  "intent": "Swearing",
-                  "text": [
-                        "fuck off",
-                        "fuck",
-                        "twat",
-                        "shit"
-                  ],
-                  "responses": [
-                        "Please do not swear",
-                        "How rude",
-                        "That is not very nice"
-                  ],
-                  "action":  {
-                        "function": "",
-                        "responses": []
-                  },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
-                  "entities": []
-            },
-            {
-                  "intent": "CourtesyGoodBye",
-                  "text": [
-                        "Thanks, bye",
-                        "Thanks for the help, goodbye",
-                        "Thank you, bye",
-                        "Thank you, goodbye",
-                        "Thanks goodbye",
-                        "Thanks good bye"
-                  ],
-                  "responses": [
-                        "No problem, goodbye",
-                        "Not a problem! Have a nice day",
-                        "Bye! Come back again soon."
-                  ],
-                  "action":  {
-                        "function": "",
-                        "responses": []
-                  },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
                   "entities": []
             },
             {
@@ -293,13 +357,176 @@
                         "Any time!",
                         "My pleasure"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "NotTalking2U",
+                  "text": [
+                        "I am not talking to you",
+                        "I was not talking to you",
+                        "Not talking to you",
+                        "Wasn't for you",
+                        "Wasn't meant for you",
+                        "Wasn't communicating to you",
+                        "Wasn't speaking to you"
+                  ],
+                  "responses": [
+                        "OK",
+                        "No problem",
+                        "Right"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "UnderstandQuery",
+                  "text": [
+                        "Do you understand what I am saying",
+                        "Do you understand me",
+                        "Do you know what I am saying",
+                        "Do you get me",
+                        "Comprendo",
+                        "Know what I mean"
+                  ],
+                  "responses": [
+                        "Well I would not be a very clever AI if I did not would I?",
+                        "I read you loud and clear!",
+                        "I do in deed!"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "Shutup",
+                  "text": [
+                        "Be quiet",
+                        "Shut up",
+                        "Stop talking",
+                        "Enough talking",
+                        "Please be quiet",
+                        "Quiet",
+                        "Shhh"
+                  ],
+                  "responses": [
+                        "I am sorry to disturb you",
+                        "Fine, sorry to disturb you",
+                        "OK, sorry to disturb you"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "Swearing",
+                  "text": [
+                        "fuck off",
+                        "fuck",
+                        "twat",
+                        "shit"
+                  ],
+                  "responses": [
+                        "Please do not swear",
+                        "How rude",
+                        "That is not very nice"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "GoodBye",
+                  "text": [
+                        "Bye",
+                        "Adios",
+                        "See you later",
+                        "Goodbye"
+                  ],
+                  "responses": [
+                        "See you later",
+                        "Have a nice day",
+                        "Bye! Come back again soon."
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "CourtesyGoodBye",
+                  "text": [
+                        "Thanks, bye",
+                        "Thanks for the help, goodbye",
+                        "Thank you, bye",
+                        "Thank you, goodbye",
+                        "Thanks goodbye",
+                        "Thanks good bye"
+                  ],
+                  "responses": [
+                        "No problem, goodbye",
+                        "Not a problem! Have a nice day",
+                        "Bye! Come back again soon."
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             },
             {
@@ -316,41 +543,48 @@
                         "Let me see",
                         "Please look at the camera"
                   ],
-                  "action":  {
-                        "function": "actions.Humans.getHumanByFace",
+                  "extension":  {
+                        "function": "extensions.gHumans.getHumanByFace",
+                        "entities": false,
                         "responses": [
                               "Hi %%HUMAN%%, how are you?",
                               "I believe you are %%HUMAN%%, how are you?",
                               "You are %%HUMAN%%, how are you doing?"
                         ]
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             },
-            {
-                  "intent": "Entiendo",
+            { 
+                  "intent": "Clever",
                   "text": [
-                        "Do you understand what I am saying",
-                        "Do you understand me",
-                        "Do you know what I am saying",
-                        "Do you get me",
-                        "Comprendo",
-                        "Know what I mean"
+                        "You are very clever",
+                        "You are a very clever girl",
+                        "You are very intelligent",
+                        "You are a very intelligent girl",
+                        "You are a genious",
+                        "Clever girl",
+                        "Genious"
                   ],
                   "responses": [
-                        "Well I would not be a very clever AI if I did not would I?",
-                        "I read you loud and clear!",
-                        "I do in deed!"
+                        "Thank you, I was trained that way",
+                        "I was trained well",
+                        "Thanks, I was trained that way"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             },
             {
@@ -464,13 +698,16 @@
                         "David said he gave I his email address and told I to send him a message but when he tried to read his email he could not get to it.",  
                         "Mel said he to because all of the music people say how important it is to take private lessons it seems like almost everybody from the special orchestra he was in takes private lessons."
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             },
             {
@@ -628,13 +865,99 @@
                         "My mate Sid was a victim of I.D. theft. Now we just call him S.",
                         "David Hasselhoff walks into a bar and says to the barman, 'I want you to call me David Hoff'.  The barman replies 'Sure thing Dave... no hassle'"
                   ],
-                  "action":  {
+                  "extension":  {
                         "function": "",
+                        "entities": false,
                         "responses": []
                   },
-                  "contextIn": "",
-                  "contextOut": "",
-                  "contextClear": "",
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "PodBayDoor",
+                  "text": [
+                        "Open the pod bay door",
+                        "Can you open the pod bay door",
+                        "Will you open the pod bay door",
+                        "Open the pod bay door please",
+                        "Can you open the pod bay door please",
+                        "Will you open the pod bay door please",
+                        "Pod bay door"
+                  ],
+                  "responses": [
+                        "I’m sorry, I’m afraid I can’t do that!"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "PodBayDoor",
+                        "clear": false
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "PodBayDoorResponse",
+                  "text": [
+                        "Why",
+                        "Why not",
+                        "Why can you not open the pod bay door",
+                        "Why will you not open the pod bay door",
+                        "Well why not",
+                        "Surely you can",
+                        "Tell me why"
+                  ],
+                  "responses": [
+                        "It is classified, I could tell you but I would have to kill you!",
+                        "Jim, I just don't have the power",
+                        "It's life Jim but not as we know it!",
+                        "System says no!"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "PodBayDoor",
+                        "out": "",
+                        "clear": true
+                  },
+                  "entities": []
+            },
+            {
+                  "intent": "SelfAware",
+                  "text": [
+                        "Can you prove you are self-aware",
+                        "Can you prove you are self aware",
+                        "Can you prove you have a conscious",
+                        "Can you prove you are self-aware please",
+                        "Can you prove you are self aware please",
+                        "Can you prove you have a conscious please",
+                        "prove you have a conscious"
+                  ],
+                  "responses": [
+                        "That is an interesting question, can you prove that you are?",
+                        "That is an difficult question, can you prove that you are?",
+                        "That depends, can you prove that you are?"
+                  ],
+                  "extension":  {
+                        "function": "",
+                        "entities": false,
+                        "responses": []
+                  },
+                  "context":  {
+                        "in": "",
+                        "out": "",
+                        "clear": false
+                  },
                   "entities": []
             }
       ]

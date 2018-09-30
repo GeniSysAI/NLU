@@ -2,7 +2,7 @@
 #
 # The MIT License (MIT)
 # 
-# GeniSys NLU Time Helpers
+# GeniSys NLU Extension Core
 # Copyright (C) 2018 Adam Milton-Barker (AdamMiltonBarker.com)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,22 +23,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Title:         GeniSys NLU Time Helpers
-# Description:   Time helper functions for GeniSys NLU.
+# Title:         GeniSys NLU Extension Core
+# Description:   Core extension functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
- 
-import os, time, json
 
-from datetime import datetime
+class Extensions():
 
-class NLUtime():
-    
     def __init__(self):
         pass
-        
-    def getTime(self, response):
-        
-        return response.replace("%%TIME%%", time.strftime("%c"))
+
+    def setExtension(self, intent):
+
+        ###############################################################
+        #
+        # Sets and returns the extension path and responses
+        #
+        ###############################################################
+
+        extensionResponses = []
+        extension = None
+        entities  = False
+
+        extension = intent["extension"]["function"] if intent["extension"]["function"] !="" else None
+
+        if extension != None:
+            extensionResponses = intent["extension"]["responses"]
+            entities = intent["extension"]["entities"]
+
+        return extension, extensionResponses, entities

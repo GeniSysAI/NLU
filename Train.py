@@ -27,11 +27,11 @@
 # Description:   Trains the GeniSys NLU Engine
 # Configuration: required/confs.json
 # Training Data: data/training.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
  
-import sys, os, json, re, time
+import sys, os, json, re, time, warnings
 
 import JumpWayMQTT.Device as jumpWayDevice
 
@@ -41,76 +41,72 @@ from tools.Data     import Data
 from tools.Model    import Model
 from tools.Mitie    import Entities
 
-parent = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(parent + '/MITIE/mitielib')
+if not sys.warnoptions:
+	warnings.simplefilter("ignore")
 
 class Trainer():
 
-	def __init__(self, jumpWay):
+	###############################################################
+	#
+	# Sets up all default requirements and placeholders 
+	# needed for the NLU engine to run. 
+	#
+	# - Helpers: Useful global functions
+	# - JumpWay/jumpWayClient: iotJumpWay class and connection
+	# - Logging: Logging class
+	#
+	###############################################################
+
+	def __init__(self, jumpWay): 
     		
 		self.Helpers    = Helpers()
-		self.Logging    = Logging()
+		self._confs     = self.Helpers.loadConfigs()
+		self.LogFile    = self.Helpers.setLogFile(self._confs["aiCore"]["Logs"]+"Train/")
+
 		self.jumpwayCl  = jumpWay
 
-		self._confs     = self.Helpers.loadConfigs()
-		self.LogFile    = self.Logging.setLogFile(self._confs["AI"]["Logs"]+"Train/")
-		
-		self.Logging.logMessage(
-			self.LogFile,
-			"LogFile",
-			"INFO",
-			"NLU Trainer LogFile Set")
-
-		self.Model      = Model()
-		self.Data       = Data(self.Logging, self.LogFile)
 		self.intentMap  = {}
 		self.words      = []
 		self.classes    = [] 
 		self.dataCorpus = []
-
-		self.setupData()
-		self.setupEntities()
+		
+		self.Model      = Model()
+		self.Data       = Data()
 		
 	def setupData(self):
 
 		self.trainingData = self.Data.loadTrainingData()
-		
-		self.Logging.logMessage(
-			self.LogFile,
-			"Trainer",
-			"INFO",
-			"Loaded NLU Training Data")
 
 		self.words, self.classes, self.dataCorpus, self.intentMap = self.Data.prepareData(self.trainingData)
 		self.x, self.y = self.Data.finaliseData(self.classes, self.dataCorpus, self.words)
 		
-		self.Logging.logMessage(
+		self.Helpers.logMessage(
 			self.LogFile,
 			"TRAIN",
 			"INFO",
-			"NLU Trainer Data Ready")
+			"NLU Training Data Ready")
 		
 	def setupEntities(self):
     		
-		if self._confs["ClassifierSettings"]["Entities"] == "Mitie":
+		if self._confs["NLU"]["Entities"] == "Mitie":
 				
-			self.entityExtractor = Entities()
+			self.entityController = Entities()
+				
+			self.entityController.trainEntities(
+				self._confs["NLU"]["Mitie"]["ModelLocation"],
+				self.trainingData) 
 		
-			self.Logging.logMessage(
+			self.Helpers.logMessage(
 				self.LogFile,
 				"TRAIN",
 				"OK",
-				"NLU Trainer Entity Extractor Ready")
-				
-			self.entityExtractor.trainEntities(
-				self._confs["ClassifierSettings"]["Mitie"]["ModelLocation"],
-				self.trainingData) 
+				"NLU Trainer Entities Ready")
 		
 	def trainModel(self):
 		
 		while True:
 			
-			self.Logging.logMessage(
+			self.Helpers.logMessage(
 				self.LogFile,
 				"TRAIN",
 				"ACTION",
@@ -120,14 +116,11 @@ class Trainer():
 
 			if userInput == 'Yes': break
 			if userInput == 'No':  exit()
+
+		self.setupData()
+		self.setupEntities()
     		
 		humanStart, trainingStart = self.Helpers.timerStart()
-		
-		self.Logging.logMessage(
-			self.LogFile,
-			"TRAIN",
-			"INFO",
-			"NLU Model Training At " + humanStart)
 
 		self.jumpwayCl.publishToDeviceChannel(
 			"Training",
@@ -137,6 +130,7 @@ class Trainer():
 				"End" : "In Progress",
 				"Total" : "In Progress",
 				"Message" : "NLU Model Training At " + humanStart})
+
 		self.Model.trainDNN(
 			self.x,
 			self.y,
@@ -146,7 +140,7 @@ class Trainer():
     		
 		trainingEnd, trainingTime, humanEnd = self.Helpers.timerEnd(trainingStart)
 		
-		self.Logging.logMessage(
+		self.Helpers.logMessage(
 			self.LogFile,
 			"TRAIN",
 			"OK",

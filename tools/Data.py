@@ -26,40 +26,51 @@
 # Title:         GeniSys NLU Data Helper
 # Description:   Data helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
 
 import json, random, nltk, numpy as np 
 
 from nltk.stem.lancaster import LancasterStemmer
+from tools.Helpers       import Helpers
+from tools.Logging       import Logging
 
 class Data():
 
-    def __init__(self, Logging, LogFile):
+    def __init__(self):
+
+        ###############################################################
+        #
+        # Sets up all default requirements and placeholders 
+        # needed for the NLU engine to run. 
+        #
+        # - Helpers: Useful global functions
+        # - Logging: Logging class
+        # - LancasterStemmer: Word stemmer
+        #
+        ###############################################################
+        
+        self.ignore  = [',','.','!','?']
+        
+        self.Helpers = Helpers()
+        self._confs  = self.Helpers.loadConfigs()
+        self.LogFile = self.Helpers.setLogFile(self._confs["aiCore"]["Logs"]+"JumpWay/")
         
         self.LancasterStemmer = LancasterStemmer()
-
-        self.Logging          = Logging
-        self.LogFile          = LogFile
-        
-        self.ignore  = [
-            '?',
-            '!'
-        ]
-        
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Data Helper Ready")
             
     def loadTrainingData(self):
+
+        ###############################################################
+        #
+        # Loads the NLU and NER training data from data/training.json
+        #
+        ###############################################################
 
         with open("data/training.json") as jsonData:
             trainingData = json.load(jsonData)
             
-        self.Logging.logMessage(
+        self.Helpers.logMessage(
             self.LogFile,
             "Data",
             "INFO",
@@ -68,77 +79,98 @@ class Data():
         return trainingData
 
     def loadTrainedData(self):
+
+        ###############################################################
+        #
+        # Loads the saved training configuratuon
+        #
+        ###############################################################
     
         with open("model/model.json") as jsonData:
             modelData = json.load(jsonData)
             
-        self.Logging.logMessage(
+        self.Helpers.logMessage(
             self.LogFile,
             "Data",
             "INFO",
             "Model Data Ready")
         
         return modelData
-
-    def loadIntentMap(self):
-
-        with open("data/intentMapper.json") as jsonData:
-            intentsMap = json.load(jsonData)
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Intent Map Ready")
-            
-        return intentsMap
-
-    def writeIntentMap(self, intentMapper, saveTo):
-        
-        with open(saveTo, 'w') as file:
-            json.dump(
-                intentMapper, 
-                file)
-                
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Intent Map Saved")
             
     def sortList(self, listToSort):
 
+        ###############################################################
+        #
+        # Sorts a list by sorting the list, and removing duplicates 
+        # 
+        # https://www.programiz.com/python-programming/methods/built-in/sorted 
+        # https://www.programiz.com/python-programming/list
+        # https://www.programiz.com/python-programming/set
+        #
+        ###############################################################
+
         return sorted(list(set(listToSort)))
         
-    def extract(self, data=None, lowerIt=True, splitIt=False, ignoreWords=False):
+    def extract(self, data=None, splitIt=False):
+
+        ###############################################################
+        #
+        # Extracts words from sentences, stripping out characters in 
+        # the ignore list above
+        # 
+        # https://www.nltk.org/_modules/nltk/stem/lancaster.html
+        # http://insightsbot.com/blog/R8fu5/bag-of-words-algorithm-in-python-introduction
+        #
+        ###############################################################
         
-        if ignoreWords:
-            return [self.LancasterStemmer.stem(word if lowerIt == False else word.lower()) for word in (data.split() if splitIt == True else data) if word not in self.ignore]
+        return [self.LancasterStemmer.stem(word) for word in (data.split() if splitIt == True else data) if word not in self.ignore]
+
+    def makeBagOfWords(self, sInput, words):
+
+        ###############################################################
+        #
+        # Makes a bag of words used by the inference and training 
+        # features. If makeBagOfWords is called during training, sInput 
+        # will be a list.
+        # 
+        # http://insightsbot.com/blog/R8fu5/bag-of-words-algorithm-in-python-introduction
+        #
+        ###############################################################
+        
+        if type(sInput) == list:
+            bagOfWords = []
+            for word in words: 
+                if word in sInput:
+                    bagOfWords.append(1)
+                else:
+                    bagOfWords.append(0)
+            return bagOfWords
+        
         else:
-            return [self.LancasterStemmer.stem(word if lowerIt == False else word.lower()) for word in (data.split() if splitIt == True else data)]
-
-    def makeTrainingBag(self, bagWords, words, bagOfWords = []):
-        
-        for word in words: bagOfWords.append(1) if word in bagWords else bagOfWords.append(0)
-
-        return bagOfWords
-
-    def makeInferenceBag(self, sentence, trainedWords):
-         
-        bagOfWords = np.zeros(len(trainedWords))
-        for cword in self.extract(sentence, True, True):
-            for i, word in enumerate(trainedWords):
-                if word == cword: bagOfWords[i] += 1
-
-        return np.array(bagOfWords)
+            bagOfWords = np.zeros(len(words))
+            for cword in self.extract(sInput, True):
+                for i, word in enumerate(words):
+                    if word == cword: bagOfWords[i] += 1
+            return np.array(bagOfWords)
 
     def prepareClasses(self, intent, classes):
-                    
-        if intent not in classes: classes.append(intent)
 
+        ###############################################################
+        #
+        # Adds an intent key to classes if it does not already exist
+        #
+        ###############################################################
+
+        if intent not in classes: classes.append(intent)
         return classes
         
     def prepareData(self, trainingData = [], wordsHldr = [], dataCorpusHldr = [], classesHldr = []):
+
+        ###############################################################
+        #
+        # Prepares the NLU and NER training data 
+        #
+        ###############################################################
 
         counter   = 0
         intentMap = {}
@@ -166,36 +198,15 @@ class Data():
             classesHldr          = self.prepareClasses(theIntent, classesHldr)
             counter              = counter + 1
 
-        words   = self.sortList(self.extract(wordsHldr, True, False,  True))
-        classes = self.sortList(classesHldr)
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Corpus: "+str(dataCorpusHldr))
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Classes: "+str(classes))
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Words: "+str(words))
-            
-        self.Logging.logMessage(
-            self.LogFile,
-            "Data",
-            "INFO",
-            "Intent Map: "+str(intentMap))
-
-        return words, classes, dataCorpusHldr, intentMap
+        return self.sortList(self.extract(wordsHldr, False)), self.sortList(classesHldr), dataCorpusHldr, intentMap
         
     def finaliseData(self, classes, dataCorpus, words):
+
+        ###############################################################
+        #
+        # Finalises the NLU training data 
+        #
+        ###############################################################
 
         trainData = []
         out = np.zeros(len(classes))
@@ -203,12 +214,12 @@ class Data():
         for document in dataCorpus:
             output = list(out)
             output[classes.index(document[1])] = 1
-            trainData.append([self.makeTrainingBag(self.extract(document[0], True, False, False), words, []), output])
+            trainData.append([self.makeBagOfWords(self.extract(document[0], False), words), output])
 
         random.shuffle(trainData)
         trainData = np.array(trainData)
             
-        self.Logging.logMessage(
+        self.Helpers.logMessage(
             self.LogFile,
             "Data",
             "INFO",

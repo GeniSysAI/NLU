@@ -2,7 +2,7 @@
 #
 # The MIT License (MIT)
 # 
-# TASS Logging
+# GeniSys NLU Time Helpers
 # Copyright (C) 2018 Adam Milton-Barker (AdamMiltonBarker.com)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,32 +23,34 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Title:         TASS Logging
-# Description:   Logging functions for TASS.
+# Title:         GeniSys NLU Time Helpers
+# Description:   Time helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
+ 
+import os, time, json, random
 
-import os, json, time 
 from datetime import datetime
 
-class Logging(): 
+class gTime():
     
     def __init__(self):
-        
+
+		###############################################################
+		#
+		# Nothing to do
+		#
+		###############################################################
         pass
-
-    def setLogFile(self, path):
         
-        return path + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H-%M-%S') + ".txt"
-        
-    def logMessage(self, logfile, process, messageType, message, hide = False):
-        
-        logString = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + "|" + process + "|" + messageType + ": " + message
+    def getTime(self, responses, entities):
 
-        with open(logfile,"a") as logLine:
-            logLine.write(logString+'\r\n')
+		###############################################################
+		#
+		# Updates current time in random response
+		#
+		###############################################################
 
-        if hide == False:
-            print(logString)
+        return random.choice(responses).replace("%%TIME%%", time.strftime("%c"))

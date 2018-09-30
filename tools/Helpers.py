@@ -26,11 +26,11 @@
 # Title:         GeniSys NLU Helpers
 # Description:   Helper functions for GeniSys NLU.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
 #
 ############################################################################################
 
-import os, time, json, importlib
+import os, time, json
 
 from datetime import datetime
 
@@ -38,33 +38,65 @@ class Helpers():
 
     def __init__(self):
 
+		###############################################################
+		#
+		# Nothing to do
+		#
+		###############################################################
         pass
 
     def loadConfigs(self):
 
+		###############################################################
+		#
+		# Loads the core JSON configuration from required/confs.json 
+		#
+		###############################################################
+
         with open("required/confs.json") as configs:
             configs = json.loads(configs.read())
         return configs
-        
-    def actionClass(self, classString):
-        
-        return importlib.import_module(classString)
-
-    def setAction(self, intent):
-
-        actionResponses = []
-
-        action = intent["action"]["function"] if "function" in intent["action"] and intent["action"]["function"] !="" else None
-
-        if action != None:
-            actionResponses = intent["action"]["responses"]
-
-        return action, actionResponses
 
     def timerStart(self):
+
+		###############################################################
+		#
+		# Starts the timer
+		#
+		###############################################################
 
         return str(datetime.now()), time.time()
 
     def timerEnd(self, start):
 
+		###############################################################
+		#
+		# Ends the timer
+		#
+		###############################################################
+
         return time.time(), (time.time() - start), str(datetime.now())
+
+    def setLogFile(self, path):
+
+		###############################################################
+		#
+		# Sets a log file path
+		#
+		###############################################################
+        
+        return path + datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H-%M-%S') + ".txt"
+        
+    def logMessage(self, logfile, process, messageType, message, hide = False):
+
+		###############################################################
+		#
+		# Logs a message to a log file
+		#
+		###############################################################
+
+        logString = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S') + "|" + process + "|" + messageType + ": " + message
+        with open(logfile,"a") as logLine:
+            logLine.write(logString+'\r\n')
+        if hide == False:
+            print(logString)
