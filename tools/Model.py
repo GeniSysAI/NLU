@@ -36,6 +36,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tflearn, json
 import tensorflow as tf
 
+from tools.Data    import Data
 from tools.Helpers import Helpers
 
 class Model():
@@ -47,11 +48,14 @@ class Model():
         # Sets up all default requirements
         #
         # - Helpers: Useful global functions
+        # - Data: Data functions
         #
         ###############################################################
         
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
+
+        self.Data = Data()
             
     def createDNNLayers(self, x, y):
 
@@ -132,3 +136,25 @@ class Model():
         tmodel = tflearn.DNN(self.createDNNLayers(x, y))
         tmodel.load(self._confs["NLU"]['TFLearn']['Path'])
         return tmodel
+        
+    def predict(self, tmodel, parsedSentence, trainedWords, trainedClasses):
+        
+        ###############################################################
+        #
+        # Makes a prediction against the trained model, checking the 
+        # confidence and then logging the results.
+        #
+        ###############################################################
+         
+        predictions = [[index, confidence] for index, confidence in enumerate(
+			tmodel.predict([
+				self.Data.makeBagOfWords(
+					parsedSentence,
+					trainedWords)])[0])]
+
+        predictions.sort(key=lambda x: x[1], reverse=True)
+        
+        classification = []
+        for prediction in predictions:  classification.append((trainedClasses[prediction[0]], prediction[1]))
+            
+        return classification

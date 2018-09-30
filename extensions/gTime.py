@@ -37,9 +37,15 @@ from datetime import datetime
 class gTime():
     
     def __init__(self):
+
+		###############################################################
+		#
+		# Nothing to do
+		#
+		###############################################################
         pass
         
-    def getTime(self, responses):
+    def getTime(self, responses, entities):
 
 		###############################################################
 		#

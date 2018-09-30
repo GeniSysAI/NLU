@@ -198,27 +198,6 @@ class NLU():
 
 		self.threshold     = self._confs["NLU"]["Threshold"]
 		self.entityThrshld = self._confs["NLU"]["Mitie"]["Threshold"]
-
-	def predict(self, parsedSentence):
-
-		###############################################################
-		#
-		# Makes a prediction against the trained model, checking the 
-		# confidence and then logging the results.
-		#
-		###############################################################
-
-		predictions = [[index, confidence] for index, confidence in enumerate(
-			self.tmodel.predict([
-				self.Data.makeBagOfWords(
-					parsedSentence,
-					self.trainedWords)])[0])]
-		predictions.sort(key=lambda x: x[1], reverse=True)
-
-		classification = []
-		for prediction in predictions:  classification.append((self.trainedClasses[prediction[0]], prediction[1]))
-				
-		return classification
 			
 	def communicate(self, sentence):
 
@@ -237,8 +216,8 @@ class NLU():
 				self.ner,
 				self.trainingData
 			)
-
-			classification = self.predict(parsedSentence)
+			
+			classification = self.Model.predict(self.tmodel, parsedSentence, self.trainedWords, self.trainedClasses)
 
 			if len(classification) > 0:
 
@@ -256,27 +235,31 @@ class NLU():
 					contextIn, contextOut, contextCurrent = self.Context.setContexts(theIntent,self.user[self.userID])
 					
 					if not len(entityHolder) and len(theIntent["entities"]):
-						response = self.entityController.replaceResponseEntities(random.choice(theIntent["fallbacks"]), entityHolder)
-						extension, extensionResponses = self.Extensions.setExtension(theIntent)
+						response, entities = self.entityController.replaceResponseEntities(random.choice(theIntent["fallbacks"]), entityHolder)
+						extension, extensionResponses, exEntities = self.Extensions.setExtension(theIntent)
 
 					elif clearEntities:
 						entityHolder = []
 						response = random.choice(theIntent["responses"])
-						extension, extensionResponses = self.Extensions.setExtension(theIntent)
+						extension, extensionResponses, exEntities = self.Extensions.setExtension(theIntent)
 
 					else:
-						response = self.entityController.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
-						extension, extensionResponses = self.Extensions.setExtension(theIntent)
+						response, entities = self.entityController.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
+						extension, extensionResponses, exEntities = self.Extensions.setExtension(theIntent)
 
 					if extension != None:
 
 						classParts     = extension.split(".")
 						classFolder    = classParts[0]
 						className      = classParts[1]
+						theEntities    = None
+
+						if exEntities != False:
+							theEntities = entities
 						
 						module         = __import__(classParts[0]+"."+classParts[1], globals(), locals(), [className])
 						extensionClass = getattr(module, className)()
-						response       = getattr(extensionClass, classParts[2])(extensionResponses)
+						response       = getattr(extensionClass, classParts[2])(extensionResponses, theEntities)
 
 					return {
 						"Response": "OK",
@@ -306,17 +289,21 @@ class NLU():
 
 					else:
 						response = self.entityController.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
-						extension, extensionResponses   = self.Extensions.setExtension(theIntent)
+						extension, extensionResponses, exEntities = self.Extensions.setExtension(theIntent)
 
 					if extension != None:
 
 						classParts     = extension.split(".")
 						classFolder    = classParts[0]
 						className      = classParts[1]
+						theEntities    = None
+
+						if exEntities != False:
+							theEntities = entities
 						
 						module         = __import__(classParts[0]+"."+classParts[1], globals(), locals(), [className])
 						extensionClass = getattr(module, className)()
-						response       = getattr(extensionClass, classParts[2])(extensionResponses)
+						response       = getattr(extensionClass, classParts[2])(extensionResponses, theEntities)
 
 					else:
 						response = self.entityController.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)

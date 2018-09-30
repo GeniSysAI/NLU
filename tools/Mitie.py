@@ -135,8 +135,13 @@ class Entities():
         #
         ###############################################################
 
-        for entity in entityHolder: response = response.replace("<"+entity["Entity"]+">", entity["ParsedEntity"].title())
-        return response
+        entities = []
+
+        for entity in entityHolder: 
+            response = response.replace("<"+entity["Entity"]+">", entity["ParsedEntity"].title())
+            entities.append( entity["ParsedEntity"].title())
+
+        return response, entities
 
     def replaceEntity(self, value, entity, trainingData):
 

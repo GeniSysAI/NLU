@@ -44,9 +44,13 @@ class Extensions():
         ###############################################################
 
         extensionResponses = []
+        extension = None
+        entities  = False
+
         extension = intent["extension"]["function"] if intent["extension"]["function"] !="" else None
 
         if extension != None:
             extensionResponses = intent["extension"]["responses"]
+            entities = intent["extension"]["entities"]
 
-        return extension, extensionResponses
+        return extension, extensionResponses, entities

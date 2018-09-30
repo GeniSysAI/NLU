@@ -44,6 +44,16 @@ from Train         import Trainer
 class JumpWay():
     
     def __init__(self):
+
+        ###############################################################
+        #
+        # Sets up all default requirements and placeholders 
+        # needed for the NLU engine to run. 
+        #
+        # - Helpers: Useful global functions
+        # - Logging: Logging class
+        #
+        ###############################################################
         
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
