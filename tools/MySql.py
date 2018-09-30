@@ -2,7 +2,7 @@
 #
 # The MIT License (MIT)
 # 
-# GeniSys NLU Human Helpers
+# GeniSys NLU MySql Helper
 # Copyright (C) 2018 Adam Milton-Barker (AdamMiltonBarker.com)
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,73 +23,69 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Title:         GeniSys NLU Human Helpers
-# Description:   Human helper functions for GeniSys NLU.
+# Title:         GeniSys NLU MySql Helper
+# Description:   MySql helper functions for GeniSys NLU.
 # Configuration: required/confs.json
 # Last Modified: 2018-09-29
 #
 ############################################################################################
+
+import sys, os, time, pymysql, json
+
+from datetime      import datetime
+from tools.Helpers import Helpers
  
-import os, time, json, hashlib, hmac 
+class MySql():
 
-from tools.Helpers     import Helpers
-from tools.Logging     import Logging
-from tools.JumpWay     import JumpWay
-from tools.MySql       import MySql
-
-from datetime          import datetime
-
-class gHumans():
-    
     def __init__(self):
 
 		###############################################################
 		#
 		# Sets up all default requirements and placeholders 
-		# needed for the NLU engine to run. 
+		# needed for the MySql connection. 
 		#
 		# - Helpers: Useful global functions
-		# - JumpWay/jumpWayClient: iotJumpWay class and connection
-		# - Logging: Logging class
 		#
 		###############################################################
-        
+
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
 
-        self.JumpWay = JumpWay()
+        self.mysqlDbConn = None
+        self.mysqlDbCur  = None
 
-        self.MySql   = MySql()
-        self.MySql.setMysqlCursorRows()
+        self.mysqlConnect()
 
-        self.Logging = Logging()
-        self.LogFile = self.Logging.setLogFile(self._confs["aiCore"]["Logs"]+"Client/")
-        
-    def getHumanByFace(self, response):
+    def mysqlConnect(self):
 
 		###############################################################
 		#
-		# Checks to see who was seen in the system camera within the 
-        # last few seconds
+		# Connects to MySql using configuration in required/confs.json
 		#
 		###############################################################
-
-        results = None
 
         try:
-            self.MySql.mysqlDbCur.execute("SELECT users.id, users.name, users.zone FROM a7fh46_users_logs logs INNER JOIN a7fh46_users users ON logs.uid = users.id  WHERE logs.timeSeen > (NOW() - INTERVAL 10 SECOND) ")
-            results       =  self.MySql.mysqlDbCur.fetchall()
-            resultsLength = len(results)
+            self.mysqlDbConn = pymysql.connect(
+                                        host = self._confs["aiCore"]["IP"],
+                                        user = self._confs["MySql"]["dbusername"],
+                                        passwd = self._confs["MySql"]["dbpassword"],
+                                        db = self._confs["MySql"]["dbname"])
         except Exception as errorz:
             print('FAILED')
             print(errorz)
 
-        if resultsLength > 0:
-            if resultsLength == 1:
-                message = "I detected " + str(responseLength) + " human, #"+str(results[0]["id"])+ " " + results[0]["name"]
-            else:
-                message = "I detected " + str(responseLength) + " humans"
-        else:
-            message = "I didn't detect any humans in the system camera feed, please stand in front of the camera"
+    def setMysqlCursor(self):
 
-        return message
+        try:
+            self.mysqlDbCur = self.mysqlDbConn.cursor()
+        except Exception as errorz:
+            print('FAILED')
+            print(errorz)
+
+    def setMysqlCursorRows(self):
+
+        try:
+            self.mysqlDbCur = self.mysqlDbConn.cursor(pymysql.cursors.DictCursor)
+        except Exception as errorz:
+            print('FAILED')
+            print(errorz)

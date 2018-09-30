@@ -1,11 +1,11 @@
 {
-    "AI":{
+    "aiCore":{
         "Logs": "logs/",
         "FQDN": "",
         "IP": "",
         "Port": 5824
     }, 
-	"ClassifierSettings":{
+	"NLU":{
         "Activation": "softmax",
         "TFLearn": {
             "Logs":"model/TFLearn",
@@ -19,6 +19,7 @@
         "Epochs": 5000,
         "BatchSize": 32,
         "ShowMetric": true,
+        "Threshold": "Mitie",
         "Entities": "Mitie",
         "EntitiesDat": "model/entities.dat",
         "Mitie": {
@@ -42,8 +43,11 @@
         "Zone": 0,
         "Device": 0,
         "DeviceName" : "",
-        "App": 72,
+        "App": 0,
         "AppName" : "", 
+        "Channels": {
+            "Commands": "Commands"
+        }, 
         "MQTT": {
             "Username": "",
             "Password": ""
@@ -53,5 +57,11 @@
             "Public": "",
             "Secret": ""
         }
+    },
+	"MySql":{
+        "host" : "localhost",
+        "dbname" : "",
+        "dbusername" : "",
+        "dbpassword" : ""
     }
 }  

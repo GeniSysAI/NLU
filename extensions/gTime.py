@@ -30,14 +30,21 @@
 #
 ############################################################################################
  
-import os, time, json
+import os, time, json, random
 
 from datetime import datetime
 
-class NLUtime():
+class gTime():
     
     def __init__(self):
         pass
         
-    def getTime(self, response):
-        return response.replace("%%TIME%%", time.strftime("%c"))
+    def getTime(self, responses):
+
+		###############################################################
+		#
+		# Updates current time in random response
+		#
+		###############################################################
+
+        return random.choice(responses).replace("%%TIME%%", time.strftime("%c"))

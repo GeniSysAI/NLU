@@ -26,7 +26,9 @@
 # Title:         GeniSys NLU Mitie Helpers
 # Description:   Helper functions for GeniSys NLU using Mitie.
 # Configuration: required/confs.json
-# Last Modified: 2018-09-08
+# Last Modified: 2018-09-29
+#
+# Uses code from https://github.com/mit-nlp/MITIE
 #
 ############################################################################################
  
@@ -42,24 +44,46 @@ from mitie               import *
 class Entities():
     
     def __init__(self):
+
+		###############################################################
+		#
+		# Sets up all default requirements
+		#
+		# - Helpers: Useful global functions
+		# - LancasterStemmer: Word stemmer
+		#
+		###############################################################
         
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
+
         self.stemmer = LancasterStemmer()
         
-    def loadEntities(self):
+    def restoreNER(self):
 
-        if os.path.exists(self._confs["ClassifierSettings"]["EntitiesDat"]):
-            return named_entity_extractor(self._confs["ClassifierSettings"]["EntitiesDat"])
+		###############################################################
+		#
+		# Restores the NER model, in this case MITIE
+		#
+		###############################################################
+         
+        if os.path.exists(self._confs["NLU"]["EntitiesDat"]):
+            return named_entity_extractor(self._confs["NLU"]["EntitiesDat"])
 
     def parseEntities(self, sentence, ner, trainingData):
+
+		###############################################################
+		#
+		# Parses entities in intents/sentences
+		#
+		###############################################################
 
         entityHolder   = []
         fallback       = False
         parsedSentence = sentence
         parsed         = ""
 
-        if os.path.exists(self._confs["ClassifierSettings"]["EntitiesDat"]):
+        if os.path.exists(self._confs["NLU"]["EntitiesDat"]):
 
             tokens   = sentence.lower().split()
             entities = ner.extract_entities(tokens)
@@ -71,7 +95,7 @@ class Entities():
                 score     = e[2]
                 scoreText = "{:0.3f}".format(score)
                 
-                if score > self._confs["ClassifierSettings"]["Mitie"]["Threshold"]:
+                if score > self._confs["NLU"]["Mitie"]["Threshold"]:
                     
                     parsed, fallback = self.replaceEntity(
                         " ".join(tokens[i] for i in range),
@@ -105,10 +129,22 @@ class Entities():
         
     def replaceResponseEntities(self, response, entityHolder):
 
+		###############################################################
+		#
+		# Replaces entities in responses
+		#
+		###############################################################
+
         for entity in entityHolder: response = response.replace("<"+entity["Entity"]+">", entity["ParsedEntity"].title())
         return response
 
     def replaceEntity(self, value, entity, trainingData):
+
+		###############################################################
+		#
+		# Replaces entities/synonyms
+		#
+		###############################################################
 
         lowEntity = value.lower()
         match     = True
@@ -125,6 +161,12 @@ class Entities():
         return lowEntity, match 
 
     def trainEntities(self, mitiemLocation, trainingData):
+
+		###############################################################
+		#
+		# Trains the NER model
+		#
+		###############################################################
         
         trainer     = ner_trainer(mitiemLocation)
         counter     = 0
@@ -151,4 +193,4 @@ class Entities():
         if hasEnts:
             trainer.num_threads = 4
             ner = trainer.train()
-            ner.save_to_disk(self._confs["ClassifierSettings"]["EntitiesDat"])
+            ner.save_to_disk(self._confs["NLU"]["EntitiesDat"])

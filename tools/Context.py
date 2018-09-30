@@ -33,25 +33,69 @@
 class Context():
 
 	def setContexts(self, theIntent, session):
+
+		###############################################################
+		#
+		# Sets all contexts
+		#
+		###############################################################
+
 		contextIn  = self.setContextIn(theIntent)
 		contextOut = self.setContextOut(theIntent)
 		context    = self.getCurrentContext(session)
+
 		return contextIn, contextOut, context
 
 	def checkClearContext(self, intent, override=0):
-		return True if "contextOut" in intent or override == 1 else "NA"
+
+		###############################################################
+		#
+		# Checks if we are to clear the current context
+		#
+		###############################################################
+
+		return True if intent["context"]["clear"] == True or override == 1 else False
 
 	def setContextIn(self, intent):
-		return intent["contextIn"] if "contextIn" in intent else "NA"
+
+		###############################################################
+		#
+		# Sets the current context in
+		#
+		###############################################################
+
+		return intent["context"]["in"] if intent["context"]["in"] != "" else ""
 
 	def setContextOut(self, intent):
-		return intent["contextOut"] if "contextOut" in intent else "NA"
+
+		###############################################################
+		#
+		# Sets the current context out
+		#
+		###############################################################
+
+		return intent["context"]["out"] if intent["context"]["out"] != "" else ""
 
 	def getCurrentContext(self, session):
+
+		###############################################################
+		#
+		# Gets the current context
+		#
+		###############################################################
+
 		return session["context"] if "context" in session else "NA"
 
 	def checkSessionContext(self, session, intent):
-		if("context" in session and "contextIn" in intent and intent["contextIn"] == session["context"]) or not "context" in session or session["context"]=="": 
+
+		###############################################################
+		#
+		# Checks the current context session
+		#
+		###############################################################
+		
+		if("context" in session and intent["context"]["in"] == session["context"]) or not "context" in session or session["context"]=="": 
 			return True 
+			
 		else: 
 			return False

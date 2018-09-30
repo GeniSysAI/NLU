@@ -23,13 +23,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Title:         GeniSys NLU Data Helper
+# Title:         GeniSys NLU Model Helper
 # Description:   Model helper functions for GeniSys NLU.
 # Configuration: required/confs.json
 # Last Modified: 2018-09-29
 #
 ############################################################################################
- 
+
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 import tflearn, json
 import tensorflow as tf
 
@@ -38,52 +41,62 @@ from tools.Helpers import Helpers
 class Model():
     
     def __init__(self):
-        self.setup()
-        
-    def setup(self):
+
+		###############################################################
+		#
+		# Sets up all default requirements
+		#
+		# - Helpers: Useful global functions
+		#
+		###############################################################
         
         self.Helpers = Helpers()
         self._confs  = self.Helpers.loadConfigs()
-        
-    def saveModelData(self, path, data, tmodel):
-
-        tmodel.save(self._confs["ClassifierSettings"]['TFLearn']['Path'])
-        
-        with open(path, "w") as outfile:
-            json.dump(data, outfile)
             
     def createDNNLayers(self, x, y):
+
+		###############################################################
+		#
+		# Sets up the DNN layers, configuration in required/confs.json
+		#
+		###############################################################
         
         net = tflearn.input_data(shape=[None, len(x[0])])
 
-        for i in range(self._confs["ClassifierSettings"]['FcLayers']):
-            net = tflearn.fully_connected(net, self._confs["ClassifierSettings"]['FcUnits'])
+        for i in range(self._confs["NLU"]['FcLayers']):
+            net = tflearn.fully_connected(net, self._confs["NLU"]['FcUnits'])
 
-        net = tflearn.fully_connected(net, len(y[0]), activation=str(self._confs["ClassifierSettings"]['Activation']))
+        net = tflearn.fully_connected(net, len(y[0]), activation=str(self._confs["NLU"]['Activation']))
 
-        if self._confs["ClassifierSettings"]['Regression']:
+        if self._confs["NLU"]['Regression']:
             net = tflearn.regression(net)
 
         return net
             
     def trainDNN(self, x, y, words, classes, intentMap):
 
+		###############################################################
+		#
+		# Trains the DNN, configuration in required/confs.json
+		#
+		###############################################################
+
         tf.reset_default_graph()
 
         tmodel = tflearn.DNN(
                         self.createDNNLayers(x, y), 
-                        tensorboard_dir = self._confs["ClassifierSettings"]['TFLearn']['Logs'], 
-                        tensorboard_verbose = self._confs["ClassifierSettings"]['TFLearn']['LogsLevel'])
+                        tensorboard_dir = self._confs["NLU"]['TFLearn']['Logs'], 
+                        tensorboard_verbose = self._confs["NLU"]['TFLearn']['LogsLevel'])
 
         tmodel.fit(
                 x, 
                 y, 
-                n_epoch = self._confs["ClassifierSettings"]['Epochs'], 
-                batch_size = self._confs["ClassifierSettings"]['BatchSize'], 
-                show_metric = self._confs["ClassifierSettings"]['ShowMetric'])
+                n_epoch = self._confs["NLU"]['Epochs'], 
+                batch_size = self._confs["NLU"]['BatchSize'], 
+                show_metric = self._confs["NLU"]['ShowMetric'])
             
         self.saveModelData(
-            self._confs["ClassifierSettings"]['TFLearn']['Data'],
+            self._confs["NLU"]['TFLearn']['Data'],
             {
                 'words': words, 
                 'classes': classes, 
@@ -92,10 +105,30 @@ class Model():
                 'intentMap' : [intentMap]
             },
             tmodel)
+        
+    def saveModelData(self, path, data, tmodel):
+
+		###############################################################
+		#
+		# Saves the model data for TFLearn and the NLU engine, 
+        # configuration in required/confs.json
+		#
+		###############################################################
+
+        tmodel.save(self._confs["NLU"]['TFLearn']['Path'])
+        
+        with open(path, "w") as outfile:
+            json.dump(data, outfile)
 
     def buildDNN(self, x, y):
 
+		###############################################################
+		#
+		# Loads the DNN model, configuration in required/confs.json
+		#
+		###############################################################
+
         tf.reset_default_graph()
         tmodel = tflearn.DNN(self.createDNNLayers(x, y))
-        tmodel.load(self._confs["ClassifierSettings"]['TFLearn']['Path'])
+        tmodel.load(self._confs["NLU"]['TFLearn']['Path'])
         return tmodel

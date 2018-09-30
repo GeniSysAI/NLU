@@ -30,10 +30,6 @@
 #
 ############################################################################################
 
-import os, time, json, importlib
-
-from datetime import datetime
-
 class Extensions():
 
     def __init__(self):
@@ -41,8 +37,14 @@ class Extensions():
 
     def setExtension(self, intent):
 
+		###############################################################
+		#
+		# Sets and returns the extension path and responses
+		#
+		###############################################################
+
         extensionResponses = []
-        extension = intent["extension"]["function"] if "function" in intent["extension"] and intent["extension"]["function"] !="" else None
+        extension = intent["extension"]["function"] if intent["extension"]["function"] !="" else None
 
         if extension != None:
             extensionResponses = intent["extension"]["responses"]
