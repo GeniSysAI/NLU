@@ -275,6 +275,16 @@ Using an action, the system will contact the iotJumpWay securely and retrieve an
 
 These features are the first steps towards a system wide user management system which will include emotional analysis and a number of other features.
 
+# Useful Links
+
+Links to related articles that helped at various stages of the project for research / code examples:
+
+- [TFLearn Quickstart](http://tflearn.org/tutorials/quickstart.html "TFLearn Quickstart")
+- [Bag of Words Algorithm in Python Introduction](http://insightsbot.com/blog/R8fu5/bag-of-words-algorithm-in-python-introduction "Bag of Words Algorithm in Python Introduction")
+- [Chatbot Architecture](https://medium.com/@surmenok/chatbot-architecture-496f5bf820ed "Chatbot Architecture")
+- [Contextual Chatbots with Tensorflow](https://chatbotsmagazine.com/contextual-chat-bots-with-tensorflow-4391749d0077 "Contextual Chatbots with Tensorflow")
+- [RasaNLU](https://github.com/RasaHQ/rasa_nlu/ "RasaNLU")
+
 # Stay Tuned!!
 
 There are more features from my original version that are still yet to be implemented plus some other cool features, pluse the combined system of all three GeniSys AI repos.
