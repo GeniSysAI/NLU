@@ -55,16 +55,6 @@ class Context():
 
 		return contextIn, contextOut, context
 
-	def checkClearContext(self, intent, override=0):
-
-		###############################################################
-		#
-		# Checks if we are to clear the current context
-		#
-		###############################################################
-
-		return True if intent["context"]["clear"] == True or override == 1 else False
-
 	def setContextIn(self, intent):
 
 		###############################################################
@@ -85,6 +75,29 @@ class Context():
 
 		return intent["context"]["out"] if intent["context"]["out"] != "" else ""
 
+	def checkSessionContext(self, session, intent):
+
+		###############################################################
+		#
+		# Checks the current context session
+		#
+		###############################################################
+		
+		if("context" in session and intent["context"]["in"] == session["context"]): 
+			return True 
+		else: 
+			return False
+
+	def checkClearContext(self, intent, override=0):
+
+		###############################################################
+		#
+		# Checks if we are to clear the current context
+		#
+		###############################################################
+
+		return True if intent["context"]["clear"] == True or override == 1 else False
+
 	def getCurrentContext(self, session):
 
 		###############################################################
@@ -94,17 +107,3 @@ class Context():
 		###############################################################
 
 		return session["context"] if "context" in session else "NA"
-
-	def checkSessionContext(self, session, intent):
-
-		###############################################################
-		#
-		# Checks the current context session
-		#
-		###############################################################
-		
-		if("context" in session and intent["context"]["in"] == session["context"]) or not "context" in session or session["context"]=="": 
-			return True 
-			
-		else: 
-			return False

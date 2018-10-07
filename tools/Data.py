@@ -168,7 +168,8 @@ class Data():
 
         ###############################################################
         #
-        # Prepares the NLU and NER training data 
+        # Prepares the NLU and NER training data, loops through the 
+        # intents from our dataset, converts any entities / synoynms  
         #
         ###############################################################
 
@@ -183,12 +184,10 @@ class Data():
                 if 'entities' in intent and len(intent['entities']):
                     i = 0
                     for entity in intent['entities']:
-
                         tokens = text.replace(trainingData['intents'][counter]["text"][i], "<"+entity["entity"]+">").lower().split()
                         wordsHldr.extend(tokens)
                         dataCorpusHldr.append((tokens, theIntent))
                         i = i + 1
-
                 else:
                     tokens = text.lower().split()
                     wordsHldr.extend(tokens)
