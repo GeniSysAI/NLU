@@ -84,8 +84,10 @@ class gHumans():
             resultsLength = len(results)
 
             if resultsLength > 0:
-                if resultsLength == 1: message = "I detected " + str(responseLength) + " human, #"+str(results[0]["id"])+ " " + results[0]["name"]
-                else: message = "I detected " + str(responseLength) + " humans"
+                if resultsLength == 1: 
+                    message = "I detected " + str(resultsLength) + " human, #"+str(results[0]["id"])+ " " + results[0]["name"]
+                else: 
+                    message = "I detected " + str(resultsLength) + " humans"
             else:
                 message = "I didn't detect any humans in the system camera feed, please stand in front of the camera"
 
@@ -116,7 +118,13 @@ class gHumans():
             if results != None: 
                 return random.choice(responses).replace("%%HUMAN%%", results["name"])
             else:
-                return "Sorry I could not identify you, this system will now self destruct! You have 5 seconds..."
+                self.MySql.mysqlDbCur.execute("SELECT users.id, users.name, users.zone FROM a7fh46_user_current currentH INNER JOIN a7fh46_users users ON currentH.uid = users.id ORDER BY id DESC LIMIT 1")
+                results       =  self.MySql.mysqlDbCur.fetchone()
+
+                if results == None: 
+                    return "I have not spoken to anyone in a while! What is your name?"
+                else:
+                    return "The last person I spoke to was ! "+ results["name"]+ " but that was over 1 minute ago! What is your name?"
 
         except Exception as errorz:
             print('FAILED1')

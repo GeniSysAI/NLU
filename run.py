@@ -284,11 +284,11 @@ class NLU():
 					contextIn, contextOut, contextCurrent = self.Context.setContexts(theIntent, self.user[self.userID])
 
 					if fallback and fallback in theIntent and len(theIntent["fallbacks"]):
-						response = self.entityController.replaceResponseEntities(random.choice(theIntent["fallbacks"]), entityHolder)
+						response, entities = self.entityController.replaceResponseEntities(random.choice(theIntent["fallbacks"]), entityHolder)
 						extension, extensionResponses = None, []
 
 					else:
-						response = self.entityController.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
+						response, entities = self.entityController.replaceResponseEntities(random.choice(theIntent["responses"]), entityHolder)
 						extension, extensionResponses, exEntities = self.Extensions.setExtension(theIntent)
 
 					if extension != None:

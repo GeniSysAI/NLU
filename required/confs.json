@@ -7,6 +7,7 @@
     }, 
 	"NLU":{
         "Activation": "softmax",
+        "Threshold": 0.5,
         "TFLearn": {
             "Logs":"model/TFLearn",
             "LogsLevel": 3,
@@ -19,7 +20,6 @@
         "Epochs": 5000,
         "BatchSize": 32,
         "ShowMetric": true,
-        "Threshold": "Mitie",
         "Entities": "Mitie",
         "EntitiesDat": "model/entities.dat",
         "Mitie": {
@@ -45,12 +45,12 @@
         "DeviceName" : "",
         "App": 0,
         "AppName" : "", 
-        "Channels": {
-            "Commands": "Commands"
-        }, 
         "MQTT": {
             "Username": "",
             "Password": ""
+        },  
+        "Channels": {
+            "Commands": "Commands"
         }, 
         "API": {
             "REST": "https://www.iotjumpway.tech/API/REST/",
